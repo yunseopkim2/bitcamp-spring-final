@@ -3,7 +3,9 @@ package kr.co.clozet.users.domains;
 import com.sun.istack.NotNull;
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.clothes.domains.Clothes;
+import kr.co.clozet.users.repositories.UserRepository;
 import lombok.*;
+import org.junit.jupiter.api.Test;
 
 import javax.persistence.*;
 import java.util.ArrayList;

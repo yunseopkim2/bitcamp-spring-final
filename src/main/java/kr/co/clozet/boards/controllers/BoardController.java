@@ -1,6 +1,7 @@
 package kr.co.clozet.boards.controllers;
 
 import kr.co.clozet.boards.domains.Board;
+import kr.co.clozet.boards.domains.BoardDTO;
 import kr.co.clozet.boards.services.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -59,9 +60,9 @@ public class BoardController {
         return service.save(board);
     }
 
-    @GetMapping("/findById/{board}")
-    public Optional<Board> findById(@PathVariable String board) {
-        return service.findById(board);
+    @GetMapping("/findById/{boardId}")
+    public Optional<Board> findById(@PathVariable String boardId) {
+        return service.findById(boardId);
     }
 
     @GetMapping("/existsById/{board}")

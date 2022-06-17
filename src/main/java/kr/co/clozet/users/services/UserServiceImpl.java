@@ -3,6 +3,7 @@ package kr.co.clozet.users.services;
 import kr.co.clozet.auth.configs.AuthProvider;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.auth.exception.SecurityRuntimeException;
+import kr.co.clozet.users.domains.Role;
 import kr.co.clozet.users.domains.User;
 import kr.co.clozet.users.domains.UserDTO;
 import kr.co.clozet.users.repositories.UserRepository;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -125,18 +127,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Messenger save(UserDTO user) {
-        Optional<User> users = repository.findById(1L);
-
-        users.ifPresent(selectUser-> {selectUser.getUserId();
-            selectUser.getBirth();
-            selectUser.getUsername();
-            selectUser.getEmail();
-            selectUser.getName();
-            selectUser.getPassword();
-            selectUser.getPhone();
-            repository.save(selectUser);
-        });
-        return Messenger.builder().message("저장되었습니다.").build();
+        System.out.println("서비스로 전달된 회원가입 정보: "+user.toString());
+        String result = "";
+        if (repository.findByUsername(user.getUsername()).isEmpty()) {
+            List<Role> list = new ArrayList<>();
+            list.add(Role.USER);
+            repository.save(User.builder()
+                    .username(user.getUsername())
+                    .name(user.getName())
+                    .birth(user.getBirth())
+                    .nickname(user.getNickname())
+                    .email(user.getEmail())
+                    .phone(user.getPhone())
+                    .password(encoder.encode(user.getPassword()))
+                    .roles(list).build());
+            result = "SUCCESS";
+        } else {
+            result = "FAIL";
+        }
+        return Messenger.builder().message(result).build();
     }
 
 

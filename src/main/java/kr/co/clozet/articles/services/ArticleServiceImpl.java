@@ -3,6 +3,7 @@ package kr.co.clozet.articles.services;
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.articles.services.ArticleService;
+import kr.co.clozet.auth.domains.Messenger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,15 +52,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public String delete(Article article) {
+    public Messenger delete(Article article) {
+
         repository.delete(article);
-        return "";
+        return Messenger.builder().message("삭제되었습니다.").build();
     }
 
+
+
     @Override
-    public String save(Article article) {
+    public Messenger save(Article article) {
         repository.save(article);
-        return "";
+        return Messenger.builder().message("등록되었습니다.").build();
     }
 
     @Override
@@ -70,5 +74,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public boolean existsById(String article) {
         return repository.existsById(0L);
+    }
+
+    @Override
+    public Messenger removeComment(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<Article> search(String title) {
+         List<Article> searchByTitle = repository.findByTitleContaining(title);
+        return searchByTitle;
     }
 }

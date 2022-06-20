@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
 import kr.co.clozet.users.domains.UserDTO;
+import kr.co.clozet.users.repositories.UserRepository;
 import kr.co.clozet.users.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class UserController {
     private final ModelMapper modelMapper;
     private final UserService service;
+    private final UserRepository repository;
 
     @PostMapping("/join")
     @ApiOperation(value = "${UserController.join}") // 리액트에서 PostMapping해서, 다음 여기로 옴 (추가)
@@ -88,6 +90,9 @@ public class UserController {
 
         return ResponseEntity.ok(service.update(user));
     }
+
+
+
 
 }
 

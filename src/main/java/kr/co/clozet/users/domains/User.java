@@ -24,7 +24,6 @@ import java.util.List;
  **/
 @ToString
 @Setter // modelMapper 를 사용하기 위해
-
 @Builder
 @Getter
 @NoArgsConstructor

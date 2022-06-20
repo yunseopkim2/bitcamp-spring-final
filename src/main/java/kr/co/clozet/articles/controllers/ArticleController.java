@@ -2,6 +2,7 @@ package kr.co.clozet.articles.controllers;
 
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.articles.services.ArticleService;
+import kr.co.clozet.auth.domains.Messenger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,12 +52,12 @@ public class ArticleController {
     }
 
     @DeleteMapping("/delete")
-    public String delete(@RequestBody Article article) {
+    public Messenger delete(@RequestBody Article article) {
         return service.delete(article);
     }
 
-    @PostMapping("/join")
-    public String save(@RequestBody Article article) {
+    @PostMapping("/save")
+    public Messenger save(@RequestBody Article article) {
         return service.save(article);
     }
 
@@ -70,4 +71,6 @@ public class ArticleController {
         return service.existsById(article);
     }
 
+    @GetMapping("/search/{title}")
+    public List<Article> search(@RequestBody String title){return service.search(title);}
 }

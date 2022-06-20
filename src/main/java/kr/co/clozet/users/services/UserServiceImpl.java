@@ -54,9 +54,11 @@ public class UserServiceImpl implements UserService {
                 }else {
                     String token = "FAILURE";
                     returnUser.setToken(token);
+
                 }
             }else {
                 returnUser.setToken("FAILURE");
+
             }
             return returnUser;
         }catch (Exception e){
@@ -192,6 +194,7 @@ public class UserServiceImpl implements UserService {
         return null;
 
     }
+
 
 }
 

@@ -1,6 +1,7 @@
 package kr.co.clozet.users.repositories;
 
 import kr.co.clozet.users.domains.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,16 +25,14 @@ import java.util.Optional;
 interface UserCustomRepository{
     // 000. 사용자의 비밀번호를 수정하시오
     @Modifying(clearAutomatically = true)
-    @Query(value = "update user u set u.password where u.userId",
-            nativeQuery = true)
-    List<User> update();
+    @Query(value = "SELECT u FROM User u")
+    List<User> up(Sort sort);
 
 
 }
 
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findByUsername(String username);
 
 }

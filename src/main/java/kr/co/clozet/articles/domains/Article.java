@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import kr.co.clozet.boards.domains.Board;
 import kr.co.clozet.users.domains.User;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -31,15 +32,16 @@ public class Article {
     @Id
     @Column(name = "article_id")
     @GeneratedValue private long articleId;
-    @Column @NotNull private String title;
-    @Column(name = "written_date") @NotNull private String writtenDate;
-    @Column @NotNull private String inquiry;
-    @Column @NotNull private String open;
-    @Column @NotNull private String content;
-    @Column @NotNull private String picture;
-    @Column @NotNull private String height;
-    @Column @NotNull private String weight;
-    @Column @NotNull private String comment;
+    @Column private String title;
+    @CreatedDate
+    @Column(name = "written_date", updatable = false)  private String writtenDate;
+    @Column private String inquiry;
+    @Column private String open;
+    @Column private String content;
+    @Column private String picture;
+    @Column private String height;
+    @Column private String weight;
+    @Column private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

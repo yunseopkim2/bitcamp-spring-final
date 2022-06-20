@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -36,8 +37,9 @@ public class Board {
     @Id
     @Column(name = "board_id")
     @GeneratedValue private long boardId;
-    @Column(name = "created_date") @NotNull private String createdDate;
-    @Column private @NotNull String qna;
+    @CreatedDate
+    @Column(name = "created_date", updatable = false) private String createdDate;
+    @Column private String qna;
 
     @OneToMany(mappedBy = "board")
     List<Article> articles = new ArrayList<>();

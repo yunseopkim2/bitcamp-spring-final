@@ -1,7 +1,8 @@
 package kr.co.clozet.users.domains;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import kr.co.clozet.articles.domains.Article;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.List;
  * =============================================
  * 2022-05-24           kimyunseop      최초 생성
  **/
-@Component @Data
+@Component @Builder
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     @ApiModelProperty(position = 1) private long userId;
     @ApiModelProperty(position = 2) String username;
@@ -29,4 +33,8 @@ public class UserDTO {
     @ApiModelProperty(position = 8) String phone;
     @ApiModelProperty(position = 9) private String token;
     @ApiModelProperty(position = 10) private List<Role> roles;
-}
+
+    public User toEntity(){
+        User user = User.builder().token(token).build();
+        return user;
+}}

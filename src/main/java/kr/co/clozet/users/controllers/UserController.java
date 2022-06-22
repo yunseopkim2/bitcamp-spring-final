@@ -12,9 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*") // 추가
@@ -46,11 +48,14 @@ public class UserController {
     })
     public ResponseEntity<UserDTO> login(@ApiParam("Login User")@RequestBody UserDTO user) {
 //        return ResponseEntity.ok(service.login(modelMapper.map(user, User.class)));
+
         return ResponseEntity.ok(service.login(user));
 
     }
+
     @PutMapping("/change")
-    public ResponseEntity<Optional<User>> changeInfo(@RequestParam Long userId, @RequestBody User user){
+    public ResponseEntity<Optional<User>> changeInfo(HttpSession session, @RequestBody User user)
+    {
         return null;
     }
     @RequestMapping(value ="/logout", method = RequestMethod.GET)
@@ -70,12 +75,14 @@ public class UserController {
     public ResponseEntity<Messenger> count() {return ResponseEntity.ok(service.count());}
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> delete(@RequestBody User user) {
+    public ResponseEntity<Messenger> delete(@RequestBody User user ) {
         return ResponseEntity.ok(service.delete(user));}
-
+    @DeleteMapping("/deleteAll")
+    public Messenger deleteAll( ) {
+        return service.deleteAll();}
 
     @GetMapping("/findById/{userId}")
-    public ResponseEntity<Optional<User>> findById(@PathVariable Long userId) {
+    public ResponseEntity<User> findById(@PathVariable Long userId) {
         return ResponseEntity.ok(service.findById(userId));}
 
     @GetMapping("/existsById/{username}")

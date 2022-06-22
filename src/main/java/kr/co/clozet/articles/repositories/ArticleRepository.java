@@ -23,14 +23,15 @@ import java.util.List;
 
 interface ArticleCustomRepository{
     // 000. title 과 content 를 수정하시오
-    void update(Article article);
-    @Modifying
-    @Query("DELETE FROM Article WHERE Article.user.userId =: userId")
-    void deleteByUserId(@Param("userId") Long userId);
+
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "SELECT a.height FROM Article a WHERE a.title LIKE '%안녕%'")
+    List<Article> searchByTitleLike(
+    );
 }
 
-
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>{
-    List<Article> findByTitleContaining(String keyword);
+public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository{
+    List<Article> findByTitleContaining(String title);
 }

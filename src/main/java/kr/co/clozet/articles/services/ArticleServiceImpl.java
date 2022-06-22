@@ -47,8 +47,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public long count() {
-        return repository.count();
+    public Messenger count() {
+
+        repository.count();
+        return Messenger.builder().message("").build() ;
     }
 
     @Override
@@ -72,8 +74,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean existsById(String article) {
-        return repository.existsById(0L);
+    public Messenger existsById(String article) {
+
+        repository.existsById(0L);
+        return Messenger.builder().message("중복된 결과입니다.").build();
     }
 
     @Override

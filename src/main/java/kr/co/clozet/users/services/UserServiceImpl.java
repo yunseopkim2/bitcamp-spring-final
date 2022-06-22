@@ -50,7 +50,8 @@ public class UserServiceImpl implements UserService {
                     returnUser = modelMapper.map(findUser, UserDTO.class);
                     String token = provider.createToken(username, returnUser.getRoles());
                     returnUser.setToken(token);
-
+                    findUser = modelMapper.map(returnUser, User.class);
+                    repository.save(findUser);
                 }else {
                     String token = "FAILURE";
                     returnUser.setToken(token);
@@ -152,8 +153,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Optional<User> findById(Long userId) {
-        return repository.findById(userId);
+    public User findById(Long userId) {
+        return repository.findById(userId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    }
+
+    @Override
+    public Messenger deleteAll() {
+        repository.deleteAll();
+        return Messenger.builder().message("삭제").build();
     }
 
     @Override

@@ -27,7 +27,7 @@ public interface ArticleService {
 
     Page<Article> findAll(Pageable pageable);
 
-    long count();
+    Messenger count();
 
     Messenger delete(Article article);
 
@@ -35,7 +35,7 @@ public interface ArticleService {
 
     Optional<Article> findById(String article);
 
-    boolean existsById(String article);
+    Messenger existsById(String article);
 
     Messenger removeComment(Long userId);
 

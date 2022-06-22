@@ -24,8 +24,8 @@ public interface UserService {
 
     Messenger save(UserDTO user);
 
-    Optional<User> findById(Long userId);
-
+    User findById(Long userId);
+    Messenger deleteAll();
     Messenger existsById(String username);
 
     Messenger getOne(Long id);

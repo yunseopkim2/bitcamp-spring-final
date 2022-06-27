@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +33,13 @@ public interface UserService {
     //custom
     Messenger change(User user);
 
-    List<User> findByUserName(String username);
-
+    User findByUserName(String username);
     Messenger update(User user);
 
     void removeUser(String userId);
+    //이메일발송
+    public void sendEmail(UserDTO user, String div) throws Exception;
+
+    //비밀번호찾기
+    public void findPw(HttpServletResponse resp, UserDTO user) throws Exception;
 }

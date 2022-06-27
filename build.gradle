@@ -45,6 +45,7 @@ dependencies {
 	//json -> csv
 	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.13.3'
 	implementation group: 'com.aspose.cells', name: 'aspose-cells-jdk16', version: '8.1.1.0'
+	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
 }
 
 tasks.named('test') {

@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,6 @@ import java.util.Optional;
 public class UserController {
     private final ModelMapper modelMapper;
     private final UserService service;
-    private final UserRepository repository;
 
     @PostMapping("/join")
     @ApiOperation(value = "${UserController.join}") // 리액트에서 PostMapping해서, 다음 여기로 옴 (추가)
@@ -51,6 +51,14 @@ public class UserController {
 
         return ResponseEntity.ok(service.login(user));
 
+    }
+    @RequestMapping(value = "/findPw", method = RequestMethod.GET)
+    public void findPwGET() throws Exception{
+    }
+
+    @RequestMapping(value = "/findPw", method = RequestMethod.POST)
+    public void findPwPOST(@ModelAttribute UserDTO user, HttpServletResponse response) throws Exception{
+        service.findPw(response, user);
     }
 
     @PutMapping("/change")

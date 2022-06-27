@@ -24,15 +24,13 @@ import java.util.Optional;
 
 interface UserCustomRepository{
     // 000. 사용자의 비밀번호를 수정하시오
-    @Modifying(clearAutomatically = true)
-    @Query(value = "SELECT u FROM User u")
-    List<User> up(Sort sort);
+
 
 
 }
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, Long>, UserCustomRepository{
     Optional<User> findByUsername(String username);
 
 }

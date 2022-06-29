@@ -35,7 +35,7 @@ public class User {
 
     @Id
     @Column(name = "user_id")
-    @GeneratedValue private long userId;
+    @GeneratedValue(strategy = GenerationType.AUTO) private long userId;
     @Column private @NotNull String username;
     @Column private @NotNull String password;
     @Column private  String name;

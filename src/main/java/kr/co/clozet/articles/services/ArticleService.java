@@ -2,6 +2,7 @@ package kr.co.clozet.articles.services;
 
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.auth.domains.Messenger;
+import kr.co.clozet.users.domains.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,7 +31,7 @@ public interface ArticleService {
     Messenger count();
 
     Messenger delete(Article article);
-
+    Messenger update(Article article);
     Messenger save(Article article);
 
     Optional<Article> findById(String article);

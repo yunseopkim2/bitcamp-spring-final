@@ -27,7 +27,7 @@ interface ArticleCustomRepository{
 
     @Modifying(clearAutomatically = true)
     @Query(value = "SELECT a.height FROM Article a WHERE a.title LIKE '%안녕%'")
-    List<Article> searchByTitleLike(
+    String[] searchByTitleLike(
     );
 }
 

@@ -24,7 +24,8 @@ import java.util.Optional;
 
 interface UserCustomRepository{
     // 000. 사용자의 비밀번호를 수정하시오
-
+    @Query(value = "select u.username from User u")
+    public String [] selectAllJPQL();
 
 
 }

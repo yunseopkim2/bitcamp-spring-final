@@ -65,6 +65,16 @@ public class AuthProvider implements AuthenticationProvider {
                 .setExpiration(validity).signWith(SignatureAlgorithm.HS256, securityKey)
                 .compact();
     }
+    public String createRefreshToken(String username, List<Role> roles){
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority()))
+                .filter(Objects::nonNull).collect(Collectors.toList()));
+        Date now = new Date();
+        Date validity = new Date(now.getTime()+validityInMs);
+        return Jwts.builder().setClaims(claims).setIssuedAt(now)
+                .setExpiration(validity).signWith(SignatureAlgorithm.HS256, securityKey)
+                .compact();
+    }
     public Authentication getAuthentication(String token) {
         UserDetails auth = service.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(auth.getAuthorities(), "", auth.getAuthorities());
@@ -97,4 +107,5 @@ public class AuthProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return false;
     }
+
 }

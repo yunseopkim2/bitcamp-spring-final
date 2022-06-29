@@ -4,6 +4,7 @@ import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.articles.services.ArticleService;
 import kr.co.clozet.auth.domains.Messenger;
+import kr.co.clozet.users.domains.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +36,27 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> findAll() {
         return repository.findAll();
     }
-
+    @Override
+    public Messenger update(Article article) {
+        final Optional<Article> original = repository.findById(article.getUser().getUserId());
+        original.ifPresent(article1 -> {
+            Article.builder().height(article.getHeight())
+                    .weight(article.getWeight())
+                    .picture(article.getPicture())
+                    .content(article.getContent())
+                    .open(article.getOpen())
+                    .inquiry(article.getInquiry())
+                    .title(article.getTitle())
+                    .comment(article.getComment())
+                    .build();
+            repository.save(article1);
+        });
+        return Messenger.builder().message("업데이트 완료").build();
+    }
     @Override
     public List<Article> findAll(Sort sort) {
-        return repository.findAll(sort);
+        List<Article> articles = repository.findAll(Sort.by(Sort.Direction.DESC, "writtenDate"));
+        return articles;
     }
 
     @Override

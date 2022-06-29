@@ -31,7 +31,7 @@ public class Article {
 
     @Id
     @Column(name = "article_id")
-    @GeneratedValue private long articleId;
+    @GeneratedValue(strategy = GenerationType.AUTO) private long articleId;
     @Column private String title;
     @CreatedDate
     @Column(name = "written_date", updatable = false)  private String writtenDate;

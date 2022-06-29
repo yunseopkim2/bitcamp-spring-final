@@ -28,6 +28,7 @@ import java.util.Optional;
 public class UserController {
     private final ModelMapper modelMapper;
     private final UserService service;
+    private final UserRepository repository;
 
     @PostMapping("/join")
     @ApiOperation(value = "${UserController.join}") // 리액트에서 PostMapping해서, 다음 여기로 옴 (추가)
@@ -60,6 +61,12 @@ public class UserController {
     public void findPwPOST(@ModelAttribute UserDTO user, HttpServletResponse response) throws Exception{
         service.findPw(response, user);
     }
+  /*  @PostMapping("/findPassword")
+    public String findPassword(@RequestBody UserDTO userDTO) throws Exception{
+        System.out.println("폼에서 받아온 email 값 : " + userDTO);
+        return service.findPassword(userDTO);
+    }*/
+
 
     @PutMapping("/change")
     public ResponseEntity<Optional<User>> changeInfo(HttpSession session, @RequestBody User user)
@@ -78,6 +85,8 @@ public class UserController {
     @GetMapping("/findAll/pageable")
     public ResponseEntity<Page<User>> findAll(Pageable pageable) {
         return ResponseEntity.ok(service.findAll(pageable));}
+    @GetMapping("/user")
+    public ResponseEntity<String []> findUser() {return ResponseEntity.ok(repository.selectAllJPQL());}
 
     @GetMapping("/count")
     public ResponseEntity<Messenger> count() {return ResponseEntity.ok(service.count());}

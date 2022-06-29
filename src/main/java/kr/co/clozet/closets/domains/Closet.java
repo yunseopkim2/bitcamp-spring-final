@@ -33,7 +33,7 @@ import java.util.List;
 public class Closet {
     @Id
     @Column(name = "closet_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) private long closetId;
+    @GeneratedValue(strategy = GenerationType.AUTO) private long closetId;
     @Column private String clothesClassification;
     @Column private String clothesRegister;
 

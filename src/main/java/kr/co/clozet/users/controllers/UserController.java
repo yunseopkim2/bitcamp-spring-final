@@ -1,5 +1,7 @@
 package kr.co.clozet.users.controllers;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.*;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
@@ -7,11 +9,14 @@ import kr.co.clozet.users.domains.UserDTO;
 import kr.co.clozet.users.repositories.UserRepository;
 import kr.co.clozet.users.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +29,7 @@ import java.util.Optional;
 @Api(tags = "users") // swagger api 추가
 @RequestMapping("/users")
 @RestController
+@Log
 @RequiredArgsConstructor
 public class UserController {
     private final ModelMapper modelMapper;
@@ -57,8 +63,10 @@ public class UserController {
     public void findPwGET() throws Exception{
     }
 
-    @RequestMapping(value = "/findPw", method = RequestMethod.POST)
-    public void findPwPOST(@ModelAttribute UserDTO user, HttpServletResponse response) throws Exception{
+    @PostMapping(value = "/findPw")
+    public void findPwPOST(@RequestBody UserDTO user, HttpServletResponse response) throws Exception{
+        System.out.println("아이디 : " + user.getUsername());
+        System.out.println("email : " + user.getEmail());
         service.findPw(response, user);
     }
   /*  @PostMapping("/findPassword")
@@ -67,7 +75,12 @@ public class UserController {
         return service.findPassword(userDTO);
     }*/
 
+    @RequestMapping(value = "/find_id", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> find_id(@RequestParam(value = "name", required = false) String name,@RequestParam(value = "email", required = false) String email) {
+        return ResponseEntity.ok(repository.find_id(name, email));
 
+    }
     @PutMapping("/change")
     public ResponseEntity<Optional<User>> changeInfo(HttpSession session, @RequestBody User user)
     {
@@ -85,6 +98,7 @@ public class UserController {
     @GetMapping("/findAll/pageable")
     public ResponseEntity<Page<User>> findAll(Pageable pageable) {
         return ResponseEntity.ok(service.findAll(pageable));}
+
     @GetMapping("/user")
     public ResponseEntity<String []> findUser() {return ResponseEntity.ok(repository.selectAllJPQL());}
 

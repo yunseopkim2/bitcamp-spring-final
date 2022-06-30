@@ -10,14 +10,13 @@ import kr.co.clozet.users.repositories.UserRepository;
 import kr.co.clozet.common.dataStructure.Box;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+//import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.HtmlEmail;
-import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -213,16 +212,16 @@ public class UserServiceImpl implements UserService {
         String charSet = "utf-8";
         String hostSMTP = "smtp.gmail.com"; //네이버 이용시 smtp.naver.com
         String hostSMTPid = "dbstjqdlwksj@gmail.com";
-        String hostSMTPpwd = "yoseph12!@";
+        String hostSMTPpwd = "owmhrcwfvoihuwke";
 
         // 보내는 사람 EMail, 제목, 내용
         String fromEmail = "dbstjqdlwksj@gmail.com";//"보내는 사람 이메일주소(받는 사람 이메일에 표시됨)";
-        String fromName = "clozet";//"프로젝트이름 또는 보내는 사람 이름";
+        String fromName = "CLOZET";//"프로젝트이름 또는 보내는 사람 이름";
         String subject = "임시비밀번호 발금";
         String msg = "임시비밀번호";
 
         if(div.equals("findpw")) {
-            subject = "베프마켓 임시 비밀번호 입니다.";
+            subject = "CLOZET 임시 비밀번호 입니다.";
             msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
             msg += "<h3 style='color: blue;'>";
             msg += user.getUsername() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
@@ -236,12 +235,12 @@ public class UserServiceImpl implements UserService {
             HtmlEmail email = new HtmlEmail();
             email.setDebug(true);
             email.setCharset(charSet);
-            email.setSSL(true);
+            email.setSSLOnConnect(true);
             email.setHostName(hostSMTP);
-            email.setSmtpPort(465); //네이버 이용시 587
+            email.setSmtpPort(587); //네이버 이용시 587
 
             email.setAuthentication(hostSMTPid, hostSMTPpwd);
-            email.setTLS(true);
+            email.setStartTLSEnabled(true);
             email.addTo(mail, charSet);
             email.setFrom(fromEmail, fromName, charSet);
             email.setSubject(subject);
@@ -278,8 +277,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(pw);
             // 비밀번호 변경
             String newPw = returnUser.getPassword();
-            findUser = modelMapper.map(returnUser, User.class);
-            repository.save(findUser);
+            repository.save(returnUser);
 
             // 비밀번호 변경 메일 발송
             sendEmail(user, "findpw");
@@ -290,5 +288,23 @@ public class UserServiceImpl implements UserService {
     }
 
 
-}
+   /* @Override
+    public String[] find_id(String name, String email){
+        User user = new User();
+        UserDTO userDTO = new UserDTO();
+        String [] result;
+        try {
+            result= repository.find_id(name, email);
+            //userDTO.setUsername(result);
+        } catch(Exception e) {
+
+            e.printStackTrace();
+        }
+        *//*log.info(result);*//*
+        *//*log.info(result.getClass().getSimpleName());*//*
+        log.info(userDTO.getUsername());
+        Messenger.builder().message(userDTO.getUsername()+"님").build();
+        return repository.find_id(name, email);
+
+   }*/}
 

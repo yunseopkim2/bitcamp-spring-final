@@ -75,6 +75,7 @@ public class ArticleController {
     @GetMapping("/search/{title}")
     public ResponseEntity<List<Article>> search(@PathVariable String title){
         return ResponseEntity.ok(service.search(title));}
+
     @GetMapping("/search")
     public ResponseEntity<String[]> searchByTitleLike(){
         return ResponseEntity.ok(repository.searchByTitleLike());}

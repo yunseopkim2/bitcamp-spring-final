@@ -1,10 +1,12 @@
 package kr.co.clozet.users.repositories;
 
 import kr.co.clozet.users.domains.User;
+import kr.co.clozet.users.domains.UserDTO;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +29,8 @@ interface UserCustomRepository{
     @Query(value = "select u.username from User u")
     public String [] selectAllJPQL();
 
-
+    @Query("select u.username from User u where u.name= :name and u.email= :email")
+    public String find_id(@Param("name") String name, @Param("email") String email);
 }
 
 @Repository

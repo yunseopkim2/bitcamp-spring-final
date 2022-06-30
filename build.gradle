@@ -31,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.boot:spring-boot-security-test'
+	//testImplementation 'org.springframework.boot:spring-boot-security-test'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
 	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
@@ -45,7 +45,9 @@ dependencies {
 	//json -> csv
 	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.13.3'
 	implementation group: 'com.aspose.cells', name: 'aspose-cells-jdk16', version: '8.1.1.0'
+	// password -> email
 	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.1'
 }
 
 tasks.named('test') {

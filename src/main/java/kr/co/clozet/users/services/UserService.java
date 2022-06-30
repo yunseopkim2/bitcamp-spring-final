@@ -14,9 +14,13 @@ import java.util.Optional;
 
 public interface UserService {
     UserDTO login(UserDTO user);
+
     Messenger logout(HttpServletRequest request);
+
     List<User> findAll();
+
     List<User> findAll(Sort sort);
+
     Page<User> findAll(Pageable pageable);
 
     Messenger count();
@@ -26,20 +30,29 @@ public interface UserService {
     Messenger save(UserDTO user);
 
     User findById(Long userId);
+
     Messenger deleteAll();
+
     Messenger existsById(String username);
 
     Messenger getOne(Long id);
+
     //custom
     Messenger change(User user);
 
     User findByUserName(String username);
+
     Messenger update(User user);
 
     void removeUser(String userId);
+
     //이메일발송
     public void sendEmail(UserDTO user, String div) throws Exception;
 
     //비밀번호찾기
     public void findPw(HttpServletResponse resp, UserDTO user) throws Exception;
+
+
+    //아이디찾기
+  /*  String[] find_id(String name, String email);*/
 }

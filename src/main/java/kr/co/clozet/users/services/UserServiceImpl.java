@@ -10,7 +10,6 @@ import kr.co.clozet.users.repositories.UserRepository;
 import kr.co.clozet.common.dataStructure.Box;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-//import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.HtmlEmail;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -257,7 +256,6 @@ public class UserServiceImpl implements UserService {
         response.setContentType("text/html;charset=utf-8");
         User returnUser = new User();
         String username = user.getUsername();
-        User findUser = repository.findByUsername(username).orElse(null);
         PrintWriter out = response.getWriter();
         // 가입된 아이디가 없으면
         if(username == null) {
@@ -275,9 +273,11 @@ public class UserServiceImpl implements UserService {
                 pw += (char) ((Math.random() * 26) + 97);
             }
             user.setPassword(pw);
-            // 비밀번호 변경
-            String newPw = returnUser.getPassword();
+            returnUser = modelMapper.map(returnUser, User.class);
             repository.save(returnUser);
+            // 비밀번호 변경
+            /*returnUser.getPassword();
+            repository.save(returnUser);*/
 
             // 비밀번호 변경 메일 발송
             sendEmail(user, "findpw");
@@ -288,23 +288,25 @@ public class UserServiceImpl implements UserService {
     }
 
 
-   /* @Override
-    public String[] find_id(String name, String email){
-        User user = new User();
-        UserDTO userDTO = new UserDTO();
-        String [] result;
+    @Override
+    public UserDTO find_id(UserDTO userDTO){
+        String result ="";
         try {
-            result= repository.find_id(name, email);
-            //userDTO.setUsername(result);
+            result= repository.find_id(userDTO.getName(), userDTO.getEmail());
+            userDTO.setUsername(result);
         } catch(Exception e) {
-
             e.printStackTrace();
         }
-        *//*log.info(result);*//*
-        *//*log.info(result.getClass().getSimpleName());*//*
-        log.info(userDTO.getUsername());
-        Messenger.builder().message(userDTO.getUsername()+"님").build();
-        return repository.find_id(name, email);
+/*        log.info(result);
+        log.info(result.getClass().getSimpleName());*/
+        //log.info(userDTO.getUsername());
+        return userDTO;
 
-   }*/}
+   }
+
+
+
+
+
+}
 

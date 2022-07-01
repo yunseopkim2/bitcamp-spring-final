@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * =============================================
  * 2022-06-15           kimyunseop      최초 생성
  **/
-@Component @Builder @Getter
+@Component @Builder @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleDTO {

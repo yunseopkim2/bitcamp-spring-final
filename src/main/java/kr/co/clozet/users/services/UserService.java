@@ -54,5 +54,6 @@ public interface UserService {
 
 
     //아이디찾기
-  /*  String[] find_id(String name, String email);*/
+    UserDTO find_id(UserDTO userDTO);
+
 }

@@ -1,7 +1,6 @@
 package kr.co.clozet.users.controllers;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.*;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
@@ -14,10 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.AuthenticatedPrincipal;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,12 +72,14 @@ public class UserController {
         return service.findPassword(userDTO);
     }*/
 
-    @RequestMapping(value = "/find_id", method = RequestMethod.POST)
+    @PostMapping("/findUser")
     @ResponseBody
-    public ResponseEntity<String> find_id(@RequestParam(value = "name", required = false) String name,@RequestParam(value = "email", required = false) String email) {
-        return ResponseEntity.ok(repository.find_id(name, email));
+    public ResponseEntity<String> find_id(@RequestBody UserDTO userDTO) {
+        //System.out.println("정보"+ service.find_id(userDTO).toString());
+        return ResponseEntity.ok(service.find_id(userDTO).getUsername());
 
     }
+
     @PutMapping("/change")
     public ResponseEntity<Optional<User>> changeInfo(HttpSession session, @RequestBody User user)
     {

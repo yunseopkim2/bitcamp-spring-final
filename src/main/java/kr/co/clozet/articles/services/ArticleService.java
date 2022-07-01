@@ -1,6 +1,7 @@
 package kr.co.clozet.articles.services;
 
 import kr.co.clozet.articles.domains.Article;
+import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
 import org.springframework.data.domain.Page;

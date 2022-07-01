@@ -1,6 +1,7 @@
 package kr.co.clozet.articles.controllers;
 
 import kr.co.clozet.articles.domains.Article;
+import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.articles.services.ArticleService;
 import kr.co.clozet.auth.domains.Messenger;

@@ -32,6 +32,7 @@ public class ArticleDTO {
     @ApiModelProperty(position = 9) String weight;
     @ApiModelProperty(position = 10) User user;
     @ApiModelProperty(position = 11) Board board;
+    @ApiModelProperty(position = 12) int view;
 
     public Article toEntity(){
         Article articles = Article.builder()

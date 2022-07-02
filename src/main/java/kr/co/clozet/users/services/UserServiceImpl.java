@@ -122,12 +122,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Messenger delete(User user) {
-        try{repository.delete(user);}
-        catch (Exception e){
-            log.info("error deleting entity");
-            throw new RuntimeException("error deleting entity"+ user.getUserId());
-        }
+    public Messenger delete(UserDTO user) {
+        repository.findByUsername(user.getUsername()).ifPresent(repository::delete);
         return Messenger.builder().message("삭제 완료").build();
     }
 

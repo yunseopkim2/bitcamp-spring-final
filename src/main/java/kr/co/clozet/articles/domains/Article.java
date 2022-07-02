@@ -26,6 +26,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Component
 @Entity
+@Setter
 @Table(name="articles")
 public class Article {
 
@@ -42,6 +43,7 @@ public class Article {
     @Column private String height;
     @Column private String weight;
     @Column private String comment;
+    @Column(columnDefinition = "integer default 0", nullable = false) private int view;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

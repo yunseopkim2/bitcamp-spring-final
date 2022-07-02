@@ -62,9 +62,9 @@ public class ArticleController {
         return ResponseEntity.ok(service.save(article));
     }
 
-    @GetMapping("/findById/{article}")
-    public ResponseEntity<Optional<Article>> findById(@PathVariable String article) {
-        return ResponseEntity.ok(service.findById(article));
+    @GetMapping("/findById/{userId}")
+    public ResponseEntity<Optional<Article>> findById(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.findById(userId));
     }
 
     @GetMapping("/existsById/{article}")
@@ -80,5 +80,10 @@ public class ArticleController {
     @GetMapping("/search")
     public ResponseEntity<String[]> searchByTitleLike(){
         return ResponseEntity.ok(repository.searchByTitleLike());}
+
+    @GetMapping("/posts/read/{userId}")    public String read(@PathVariable Long userId, ArticleDTO articleDTO) {
+        Optional<Article> articleDTO1= service.findById(userId);
+        service.updateView(userId); // views ++
+        return "posts-read";    }
 
 }

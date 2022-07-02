@@ -35,11 +35,13 @@ public interface ArticleService {
     Messenger update(Article article);
     Messenger save(Article article);
 
-    Optional<Article> findById(String article);
+    Optional<Article> findById(Long userId);
 
     Messenger existsById(String article);
 
     Messenger removeComment(Long userId);
 
     List<Article> search(String title);
+
+    Integer updateView(Long userId);
 }

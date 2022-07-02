@@ -87,7 +87,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<Article> findById(String article) {
+    public Optional<Article> findById(Long userId) {
         return repository.findById(0L);
     }
 
@@ -107,5 +107,14 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> search(String title) {
          List<Article> searchByTitle = repository.findByTitleContaining(title);
         return searchByTitle;
+    }
+
+    @Override
+    public Integer updateView(Long userId) {
+        Article article = new Article();
+        int a = repository.updateView(userId);
+        article.setView(a);
+        repository.save(article);
+        return repository.updateView(userId);
     }
 }

@@ -25,7 +25,7 @@ public interface UserService {
 
     Messenger count();
 
-    Messenger delete(User user);
+    Messenger delete(UserDTO user);
 
     Messenger save(UserDTO user);
 

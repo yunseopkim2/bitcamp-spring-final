@@ -105,7 +105,7 @@ public class UserController {
     public ResponseEntity<Messenger> count() {return ResponseEntity.ok(service.count());}
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> delete(@RequestBody User user ) {
+    public ResponseEntity<Messenger> delete(@RequestBody UserDTO user ) {
         return ResponseEntity.ok(service.delete(user));}
     @DeleteMapping("/deleteAll")
     public Messenger deleteAll( ) {

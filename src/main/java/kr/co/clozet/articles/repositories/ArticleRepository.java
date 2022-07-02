@@ -29,6 +29,9 @@ interface ArticleCustomRepository{
     @Query(value = "SELECT a.height FROM Article a WHERE a.title LIKE '%안녕%'")
     String[] searchByTitleLike(
     );
+    @Modifying
+    @Query("update Article a set a.view = a.view + 1 where a.user.userId = :userId")
+    int updateView(Long id);
 }
 
 @Repository

@@ -31,7 +31,7 @@ public interface ArticleService {
 
     Messenger count();
 
-    Messenger delete(Article article);
+    //Messenger delete(ArticleDTO article);
     Messenger update(Article article);
     Messenger save(Article article);
 
@@ -43,5 +43,6 @@ public interface ArticleService {
 
     List<Article> search(String title);
 
-    Integer updateView(Long userId);
+    //Integer updateView(Long userId);
+    //Page<Article> search(String keyword, Pageable pageable);
 }

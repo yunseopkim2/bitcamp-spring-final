@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import kr.co.clozet.boards.domains.Board;
 import kr.co.clozet.users.domains.User;
 import lombok.*;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,5 +49,8 @@ public class ArticleDTO {
                 .user(user)
                 .board(board).build();
         return null;
+    }
+
+    public void addAttribute(String searchList, Page<Article> searchList1) {
     }
 }

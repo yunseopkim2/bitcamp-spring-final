@@ -23,7 +23,6 @@ public interface UserService {
     List<User> findAll(Sort sort);
 
     Page<User> findAll(Pageable pageable);
-    Messenger partialUpdate(UserDTO userDTO);
     Messenger count();
 
     Messenger delete(UserDTO user);
@@ -32,6 +31,8 @@ public interface UserService {
     List<Article>  findByTokenToArticle(UserDTO userDTO);
 
     Messenger save(UserDTO user);
+
+    void save1(UserDTO uer);
 
     User findById(Long userId);
 
@@ -59,5 +60,8 @@ public interface UserService {
 
     //아이디찾기
     UserDTO find_id(UserDTO userDTO);
+    //patch update
+    void partialUpdate(UserDTO userDTO) throws Exception;
+
 
 }

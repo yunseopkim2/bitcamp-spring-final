@@ -72,7 +72,26 @@ public class UserController {
         System.out.println("폼에서 받아온 email 값 : " + userDTO);
         return service.findPassword(userDTO);
     }*/
-
+    @PostMapping(value = "/getToken")
+    public void getToken(@RequestBody UserDTO userDTO){
+        service.save1(userDTO);
+    }
+    @GetMapping("/existsByUsername") @ResponseBody
+    public ResponseEntity<Boolean> existsByUsername(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(repository.existsByUsername(userDTO.getUsername()));
+    }
+    @GetMapping("/existsByPhone") @ResponseBody
+    public ResponseEntity<Boolean> existsByPhone(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(repository.existsByPhone(userDTO.getPhone()));
+    }
+    @GetMapping("/existsByEmail") @ResponseBody
+    public ResponseEntity<Boolean> existsByEmail(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(repository.existsByEmail(userDTO.getEmail()));
+    }
+    @GetMapping("/existsByNickname") @ResponseBody
+    public ResponseEntity<Boolean> existsByNickname(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(repository.existsByNickname(userDTO.getNickname()));
+    }
     @PostMapping("/findUser")
     @ResponseBody
     public ResponseEntity<String> find_id(@RequestBody UserDTO userDTO) {
@@ -90,8 +109,8 @@ public class UserController {
     public ResponseEntity<Messenger> logout(HttpServletRequest request) {return ResponseEntity.ok(service.logout(request));}
 
     @PatchMapping(value = "/update") @ResponseBody
-    public ResponseEntity<Messenger> partialUpdate(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(service.partialUpdate(userDTO));
+    public void partialUpdate(@RequestBody UserDTO userDTO) throws Exception{
+       service.partialUpdate(userDTO);
     }
 
     @GetMapping("/findAll")

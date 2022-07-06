@@ -120,19 +120,19 @@ public class UserServiceImpl implements UserService {
         return Messenger.builder().message("업데이트 완료").build();
     }
     @Override @Transactional
-    public Messenger partialUpdate(final UserDTO userDTO) {
+    public void partialUpdate(final UserDTO userDTO) throws Exception{
+
         Optional<User> originUser = repository.findByToken(userDTO.getToken());
 
         User user = originUser.get();
-        if(StringUtils.isNotBlank(userDTO.getName())) user.setName(userDTO.getName());
+        if(StringUtils.isNotBlank(userDTO.getName()) ) user.setName(userDTO.getName());
         if(StringUtils.isNotBlank(userDTO.getBirth())) user.setBirth(userDTO.getBirth());
-        if(StringUtils.isNotBlank(userDTO.getNickname())) user.setNickname(userDTO.getNickname());
-        if(StringUtils.isNotBlank(userDTO.getPhone())) user.setPhone(userDTO.getPhone());
-        if(StringUtils.isNotBlank(userDTO.getEmail())) user.setEmail(userDTO.getEmail());
+        if(StringUtils.isNotBlank(userDTO.getNickname())&& !repository.existsByNickname(userDTO.getNickname())) user.setNickname(userDTO.getNickname());
+        if(StringUtils.isNotBlank(userDTO.getPhone())&& !repository.existsByPhone(userDTO.getPhone())) user.setPhone(userDTO.getPhone());
+        if(StringUtils.isNotBlank(userDTO.getEmail())&& !repository.existsByEmail(userDTO.getEmail())) user.setEmail(userDTO.getEmail());
         if(StringUtils.isNotBlank(userDTO.getPassword())) user.setPassword(userDTO.getPassword());
-        if(StringUtils.isNotBlank(userDTO.getUsername())) user.setUsername(userDTO.getUsername());
+        if(StringUtils.isNotBlank(userDTO.getUsername())&& !repository.existsByUsername(userDTO.getUsername())) user.setUsername(userDTO.getUsername());
         repository.save(user);
-        return Messenger.builder().message("수정되었습니다.").build();
     }
 
     @Override
@@ -178,6 +178,14 @@ public class UserServiceImpl implements UserService {
             result = "FAIL";
         }
         return Messenger.builder().message(result).build();
+    }
+
+    @Override
+    public void save1(UserDTO user) {
+        String token = user.getToken();
+        user.setToken(token);
+        User returnUser = modelMapper.map(user, User.class);
+        repository.save(returnUser);
     }
 
 

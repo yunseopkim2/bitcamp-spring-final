@@ -1,5 +1,6 @@
 package kr.co.clozet.boards.domains;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.closets.domains.Closet;
@@ -41,9 +42,11 @@ public class Board {
     @Column(name = "created_date", updatable = false) private String createdDate;
     @Column private String qna;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "board")
     List<Article> articles = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "board")
     List<Closet> closets = new ArrayList<>();
 

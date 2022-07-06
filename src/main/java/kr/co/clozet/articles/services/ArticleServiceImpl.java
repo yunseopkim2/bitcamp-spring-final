@@ -6,6 +6,8 @@ import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.articles.services.ArticleService;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
+import kr.co.clozet.users.domains.UserDTO;
+import kr.co.clozet.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +34,7 @@ import java.util.Optional;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository repository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -86,6 +89,12 @@ public class ArticleServiceImpl implements ArticleService {
         return Messenger.builder().message("삭제되었습니다.").build();
     }
 */
+   @Override
+   public Messenger delete(ArticleDTO articleDTO) {
+       Article article = new Article();
+       userRepository.findByUsername(articleDTO.getUser().getUsername()).equals(article.getUser().getUsername());
+       return Messenger.builder().message("삭제 완료").build();
+   }
 
 
     @Override

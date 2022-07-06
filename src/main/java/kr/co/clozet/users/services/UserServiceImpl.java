@@ -1,8 +1,10 @@
 package kr.co.clozet.users.services;
 
+import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.auth.configs.AuthProvider;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.auth.exception.SecurityRuntimeException;
+import kr.co.clozet.common.blank.StringUtils;
 import kr.co.clozet.users.domains.Role;
 import kr.co.clozet.users.domains.User;
 import kr.co.clozet.users.domains.UserDTO;
@@ -22,10 +24,12 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static kr.co.clozet.common.lambdas.Lambda.*;
 
@@ -115,6 +119,21 @@ public class UserServiceImpl implements UserService {
         });
         return Messenger.builder().message("업데이트 완료").build();
     }
+    @Override @Transactional
+    public Messenger partialUpdate(final UserDTO userDTO) {
+        Optional<User> originUser = repository.findByToken(userDTO.getToken());
+
+        User user = originUser.get();
+        if(StringUtils.isNotBlank(userDTO.getName())) user.setName(userDTO.getName());
+        if(StringUtils.isNotBlank(userDTO.getBirth())) user.setBirth(userDTO.getBirth());
+        if(StringUtils.isNotBlank(userDTO.getNickname())) user.setNickname(userDTO.getNickname());
+        if(StringUtils.isNotBlank(userDTO.getPhone())) user.setPhone(userDTO.getPhone());
+        if(StringUtils.isNotBlank(userDTO.getEmail())) user.setEmail(userDTO.getEmail());
+        if(StringUtils.isNotBlank(userDTO.getPassword())) user.setPassword(userDTO.getPassword());
+        if(StringUtils.isNotBlank(userDTO.getUsername())) user.setUsername(userDTO.getUsername());
+        repository.save(user);
+        return Messenger.builder().message("수정되었습니다.").build();
+    }
 
     @Override
     public void removeUser(String userId) {
@@ -125,6 +144,17 @@ public class UserServiceImpl implements UserService {
     public Messenger delete(UserDTO user) {
         repository.findByUsername(user.getUsername()).ifPresent(repository::delete);
         return Messenger.builder().message("삭제 완료").build();
+    }
+    @Override
+    public Optional<User> findByToken(UserDTO userDTO) {
+        return repository.findByToken(userDTO.getToken());
+    }
+
+    @Override
+    public List<Article>  findByTokenToArticle(UserDTO userDTO) {
+        User user = repository.findByToken(userDTO.getToken()).orElse(null);
+
+        return user.getArticles();
     }
 
     @Override

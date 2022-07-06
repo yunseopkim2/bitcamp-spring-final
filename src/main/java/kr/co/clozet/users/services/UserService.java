@@ -1,5 +1,6 @@
 package kr.co.clozet.users.services;
 
+import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
 import kr.co.clozet.users.domains.UserDTO;
@@ -22,10 +23,13 @@ public interface UserService {
     List<User> findAll(Sort sort);
 
     Page<User> findAll(Pageable pageable);
-
+    Messenger partialUpdate(UserDTO userDTO);
     Messenger count();
 
     Messenger delete(UserDTO user);
+    Optional<User> findByToken(UserDTO userDTO);
+
+    List<Article>  findByTokenToArticle(UserDTO userDTO);
 
     Messenger save(UserDTO user);
 

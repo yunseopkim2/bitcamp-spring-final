@@ -53,11 +53,11 @@ public class ArticleController {
     @GetMapping("/count")
     public ResponseEntity<Messenger> count() {return ResponseEntity.ok(service.count());}
 
-  /*  @DeleteMapping("/delete")
+   @DeleteMapping("/delete")
     public  ResponseEntity<Messenger> delete(@RequestBody ArticleDTO article) {
         return ResponseEntity.ok(service.delete(article));
     }
-*/
+
     @PostMapping("/save")
     public  ResponseEntity<Messenger> save(@RequestBody Article article) {
         return ResponseEntity.ok(service.save(article));

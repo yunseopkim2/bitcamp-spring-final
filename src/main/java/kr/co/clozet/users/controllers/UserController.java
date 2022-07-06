@@ -2,6 +2,7 @@ package kr.co.clozet.users.controllers;
 
 
 import io.swagger.annotations.*;
+import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.users.domains.User;
 import kr.co.clozet.users.domains.UserDTO;
@@ -77,7 +78,6 @@ public class UserController {
     public ResponseEntity<String> find_id(@RequestBody UserDTO userDTO) {
         //System.out.println("정보"+ service.find_id(userDTO).toString());
         return ResponseEntity.ok(service.find_id(userDTO).getUsername());
-
     }
 
     @PutMapping("/change")
@@ -85,8 +85,14 @@ public class UserController {
     {
         return null;
     }
+
     @RequestMapping(value ="/logout", method = RequestMethod.GET)
     public ResponseEntity<Messenger> logout(HttpServletRequest request) {return ResponseEntity.ok(service.logout(request));}
+
+    @PatchMapping(value = "/update") @ResponseBody
+    public ResponseEntity<Messenger> partialUpdate(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(service.partialUpdate(userDTO));
+    }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<User>> findAll() {return ResponseEntity.ok(service.findAll());}
@@ -107,12 +113,13 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity<Messenger> delete(@RequestBody UserDTO user ) {
         return ResponseEntity.ok(service.delete(user));}
+
     @DeleteMapping("/deleteAll")
     public Messenger deleteAll( ) {
         return service.deleteAll();}
 
     @GetMapping("/findById/{userId}")
-    public ResponseEntity<User> findById(@PathVariable Long userId) {
+    public ResponseEntity<User> findById(@PathVariable long userId) {
         return ResponseEntity.ok(service.findById(userId));}
 
     @GetMapping("/existsById/{username}")
@@ -122,14 +129,20 @@ public class UserController {
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Messenger> getOne(@PathVariable Long id) {
         return ResponseEntity.ok(service.getOne(id));}
-    @PutMapping("/update")
+
+    @PutMapping("/updates")
     public ResponseEntity<Messenger> update(@RequestBody User user) {
 
         return ResponseEntity.ok(service.update(user));
     }
-
-
-
+    @PostMapping("/token") @ResponseBody
+    public ResponseEntity<Optional<User>> findByToken(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(service.findByToken(userDTO));
+    }
+    @PostMapping("/BytokenArticle") @ResponseBody
+    public ResponseEntity<List<Article> > findByTokenToArticle(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(service.findByTokenToArticle(userDTO));
+    }
 
 }
 

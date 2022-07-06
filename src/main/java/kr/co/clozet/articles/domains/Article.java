@@ -1,5 +1,6 @@
 package kr.co.clozet.articles.domains;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import kr.co.clozet.boards.domains.Board;
 import kr.co.clozet.users.domains.User;
@@ -45,10 +46,12 @@ public class Article {
     @Column private String comment;
     @Column(columnDefinition = "integer default 0", nullable = false) private int view;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;

@@ -31,7 +31,7 @@ public interface ArticleService {
 
     Messenger count();
 
-    //Messenger delete(ArticleDTO article);
+    Messenger delete(ArticleDTO article);
     Messenger update(Article article);
     Messenger save(Article article);
 

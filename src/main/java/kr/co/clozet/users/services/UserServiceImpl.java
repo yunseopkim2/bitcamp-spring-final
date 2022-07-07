@@ -139,7 +139,12 @@ public class UserServiceImpl implements UserService {
     public void removeUser(String userId) {
 
     }
-
+    @Override
+    public UserDTO save1(UserDTO user) throws Exception{
+        User returnUser = modelMapper.map(user, User.class);
+        repository.save(returnUser);
+        return user;
+    }
     @Override
     public Messenger delete(UserDTO user) {
         repository.findByUsername(user.getUsername()).ifPresent(repository::delete);
@@ -180,13 +185,6 @@ public class UserServiceImpl implements UserService {
         return Messenger.builder().message(result).build();
     }
 
-    @Override
-    public void save1(UserDTO user) {
-        String token = user.getToken();
-        user.setToken(token);
-        User returnUser = modelMapper.map(user, User.class);
-        repository.save(returnUser);
-    }
 
 
     @Override

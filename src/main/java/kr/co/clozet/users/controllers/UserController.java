@@ -72,10 +72,7 @@ public class UserController {
         System.out.println("폼에서 받아온 email 값 : " + userDTO);
         return service.findPassword(userDTO);
     }*/
-    @PostMapping(value = "/getToken")
-    public void getToken(@RequestBody UserDTO userDTO){
-        service.save1(userDTO);
-    }
+
     @GetMapping("/existsByUsername") @ResponseBody
     public ResponseEntity<Boolean> existsByUsername(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(repository.existsByUsername(userDTO.getUsername()));
@@ -148,7 +145,10 @@ public class UserController {
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Messenger> getOne(@PathVariable Long id) {
         return ResponseEntity.ok(service.getOne(id));}
-
+    @PostMapping(value = "/getToken") @ResponseBody
+    public ResponseEntity<UserDTO> getToken(@RequestBody UserDTO userDTO) throws Exception{
+        return ResponseEntity.ok(service.save1(userDTO));
+    }
     @PutMapping("/updates")
     public ResponseEntity<Messenger> update(@RequestBody User user) {
 

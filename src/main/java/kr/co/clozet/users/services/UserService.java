@@ -19,6 +19,7 @@ public interface UserService {
     Messenger logout(HttpServletRequest request);
 
     List<User> findAll();
+    UserDTO save1(UserDTO user) throws Exception;
 
     List<User> findAll(Sort sort);
 
@@ -32,7 +33,6 @@ public interface UserService {
 
     Messenger save(UserDTO user);
 
-    void save1(UserDTO uer);
 
     User findById(Long userId);
 

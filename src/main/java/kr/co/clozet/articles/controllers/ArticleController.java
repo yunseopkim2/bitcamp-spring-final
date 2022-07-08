@@ -138,9 +138,15 @@ public class ArticleController {
      }
      return "성공";
  }
-    @GetMapping("/posts/read") @ResponseBody
-    public ResponseEntity<Article> read(@RequestBody ArticleDTO articleDTO) {
+    @GetMapping("/posts/{title}") @ResponseBody
+    public Integer read(@PathVariable("title") String title) {
          // views ++
-        return ResponseEntity.ok(repository.updateView(articleDTO.getTitle()));
+        ResponseEntity.ok(repository.updateView(title));
+        Article article = new Article();
+        return article.getView();
+    }
+    @PatchMapping(value = "/update") @ResponseBody
+    public void partialUpdate(@RequestBody final ArticleDTO articleDTO) {
+      service.partialUpdate(articleDTO);
     }
 }

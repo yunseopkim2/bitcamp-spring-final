@@ -4,6 +4,7 @@ import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.auth.domains.Messenger;
+import kr.co.clozet.common.blank.StringUtils;
 import kr.co.clozet.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -153,5 +154,19 @@ public ArticleDTO getPost(Long articleId) {
             .build();
     return boardDto;
 }
+    @Override @Transactional
+    public void partialUpdate(final ArticleDTO articleDTO) {
+        Optional<Article> originArticle = repository.findById(articleDTO.getArticleId());
 
+        Article article = originArticle.get();
+        if(StringUtils.isNotBlank(articleDTO.getTitle())) article.setTitle(articleDTO.getTitle());
+        if(StringUtils.isNotBlank(articleDTO.getWrittenDate())) article.setWrittenDate(articleDTO.getWrittenDate());
+        if(StringUtils.isNotBlank(articleDTO.getOpen())) article.setOpen(articleDTO.getOpen());
+        if(StringUtils.isNotBlank(articleDTO.getContent())) article.setContent(articleDTO.getContent());
+        if(StringUtils.isNotBlank(articleDTO.getPicture())) article.setPicture(articleDTO.getPicture());
+        if(StringUtils.isNotBlank(articleDTO.getHeight())) article.setHeight(articleDTO.getHeight());
+        if(StringUtils.isNotBlank(articleDTO.getWeight())) article.setWeight(articleDTO.getWeight());
+        if(StringUtils.isNotBlank(articleDTO.getComment())) article.setComment(articleDTO.getComment());
+        repository.save(article);
+    }
 }

@@ -42,6 +42,7 @@ public interface ArticleService {
     Messenger removeComment(Long userId);
 
     List<Article> search(String title);
+    void partialUpdate(ArticleDTO articleDTO);
 
 
     //Page<Article> search(String keyword, Pageable pageable);

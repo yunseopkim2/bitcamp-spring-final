@@ -7,6 +7,8 @@ import lombok.*;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Column;
+
 /**
  * packageName:kr.co.clozet.articles.domains
  * fileName        :ArticleDTO.java
@@ -35,6 +37,7 @@ public class ArticleDTO {
     @ApiModelProperty(position = 11) Board board;
     @ApiModelProperty(position = 12) int view;
     @ApiModelProperty(position = 13) private Long fileId;
+    @ApiModelProperty(position = 14) private String comment;
 
     public Article toEntity(){
         Article articles = Article.builder()

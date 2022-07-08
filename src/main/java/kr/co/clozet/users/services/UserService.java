@@ -26,7 +26,7 @@ public interface UserService {
     Page<User> findAll(Pageable pageable);
     Messenger count();
 
-    Messenger delete(UserDTO user);
+    void delete( UserDTO userDTO) throws Exception;
     Optional<User> findByToken(UserDTO userDTO);
 
     List<Article>  findByTokenToArticle(UserDTO userDTO);

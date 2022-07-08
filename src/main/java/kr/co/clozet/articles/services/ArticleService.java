@@ -43,6 +43,6 @@ public interface ArticleService {
 
     List<Article> search(String title);
 
-    //Integer updateView(Long userId);
+
     //Page<Article> search(String keyword, Pageable pageable);
 }

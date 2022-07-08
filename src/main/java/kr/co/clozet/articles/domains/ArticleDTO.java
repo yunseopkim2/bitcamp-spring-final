@@ -34,6 +34,7 @@ public class ArticleDTO {
     @ApiModelProperty(position = 10) User user;
     @ApiModelProperty(position = 11) Board board;
     @ApiModelProperty(position = 12) int view;
+    @ApiModelProperty(position = 13) private Long fileId;
 
     public Article toEntity(){
         Article articles = Article.builder()
@@ -47,6 +48,7 @@ public class ArticleDTO {
                 .height(height)
                 .weight(weight)
                 .user(user)
+                .fileId(fileId)
                 .board(board).build();
         return null;
     }

@@ -3,10 +3,7 @@ package kr.co.clozet.articles.services;
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.articles.repositories.ArticleRepository;
-import kr.co.clozet.articles.services.ArticleService;
 import kr.co.clozet.auth.domains.Messenger;
-import kr.co.clozet.users.domains.User;
-import kr.co.clozet.users.domains.UserDTO;
 import kr.co.clozet.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,5 +140,18 @@ public class ArticleServiceImpl implements ArticleService {
         return postsList;
     }
 */
+@Transactional
+public ArticleDTO getPost(Long articleId) {
+    Article board = repository.findById(articleId).get();
+
+    ArticleDTO boardDto = ArticleDTO.builder()
+            .articleId(board.getArticleId())
+            .title(board.getTitle())
+            .content(board.getContent())
+            .fileId(board.getFileId())
+            .writtenDate(board.getWrittenDate())
+            .build();
+    return boardDto;
+}
 
 }

@@ -1,6 +1,5 @@
 package kr.co.clozet.users.controllers;
 
-
 import io.swagger.annotations.*;
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.auth.domains.Messenger;
@@ -126,9 +125,10 @@ public class UserController {
     @GetMapping("/count")
     public ResponseEntity<Messenger> count() {return ResponseEntity.ok(service.count());}
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> delete(@RequestBody UserDTO user ) {
-        return ResponseEntity.ok(service.delete(user));}
+    @DeleteMapping(value = "/delete") @ResponseBody
+    public void delete(@RequestBody UserDTO userDTO) throws Exception{
+        service.delete(userDTO);
+    }
 
     @DeleteMapping("/deleteAll")
     public Messenger deleteAll( ) {

@@ -35,12 +35,15 @@ interface ArticleCustomRepository{
     String[] searchByTitleLike(
     );
     @Modifying
-    @Query("update Article a set a.view = a.view + 1 where a.user.userId = :userId")
-    int updateView(Long id);
+    @Query("update Article a set a.view = a.view + 1 where a.title = :title")
+    Article updateView(@Param("title") String title);
+
+    @Query(value = "SELECT a FROM Article a where a.user.token = :token")
+    Article findByTokenToArticle(@Param("token") String token);
 }
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>{
+public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository{
     List<Article> findByTitleContaining(String title);
     Page<Article> findByTitleContaining(String keyword, Pageable pageable);
 

@@ -5,6 +5,7 @@ import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.common.blank.StringUtils;
+import kr.co.clozet.users.domains.User;
 import kr.co.clozet.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -168,5 +169,14 @@ public ArticleDTO getPost(Long articleId) {
         if(StringUtils.isNotBlank(articleDTO.getWeight())) article.setWeight(articleDTO.getWeight());
         if(StringUtils.isNotBlank(articleDTO.getComment())) article.setComment(articleDTO.getComment());
         repository.save(article);
+    }
+
+    @Override
+    public Article findByTokenQna(ArticleDTO articleDTO) {
+    User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
+    user.getArticles();
+    
+
+        return null;
     }
 }

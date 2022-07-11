@@ -49,7 +49,7 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/login").permitAll()
                 .antMatchers("/api/weather").permitAll()
                 .antMatchers("/articles/findByTokenToArticle").permitAll()
-                .antMatchers("/users/findById").permitAll()
+                .antMatchers("/articles/findByTokenToQna").permitAll()
                 .antMatchers("/users/save").permitAll()
                 .antMatchers("/users/findAll").permitAll()
                 .antMatchers("/users/deleteAll").permitAll()

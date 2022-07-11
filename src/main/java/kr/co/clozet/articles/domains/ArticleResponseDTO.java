@@ -39,7 +39,6 @@ public class ArticleResponseDTO {
         this.title = article.getTitle();
         this.writtenDate = article.getWrittenDate();
         this.inquiry = article.getInquiry();
-        this.open = article.getOpen();
         this.content = article.getContent();
         this.picture = article.getPicture();
         this.height = article.getHeight();

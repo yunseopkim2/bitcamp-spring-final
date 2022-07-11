@@ -149,4 +149,10 @@ public class ArticleController {
     public void partialUpdate(@RequestBody final ArticleDTO articleDTO) {
       service.partialUpdate(articleDTO);
     }
+
+    @PatchMapping(value = "/findByTokenToQna") @ResponseBody
+    public ResponseEntity<Article> findByTokenToQna(@RequestBody final ArticleDTO articleDTO) {
+        Article article = repository.findByToken(articleDTO.getUser().getToken(), articleDTO.isOpen());
+        return ResponseEntity.ok(article);
+    }
 }

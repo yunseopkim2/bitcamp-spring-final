@@ -49,7 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .weight(article.getWeight())
                     .picture(article.getPicture())
                     .content(article.getContent())
-                    .open(article.getOpen())
+                    .open(article.isOpen())
                     .inquiry(article.getInquiry())
                     .title(article.getTitle())
                     .comment(article.getComment())
@@ -162,7 +162,6 @@ public ArticleDTO getPost(Long articleId) {
         Article article = originArticle.get();
         if(StringUtils.isNotBlank(articleDTO.getTitle())) article.setTitle(articleDTO.getTitle());
         if(StringUtils.isNotBlank(articleDTO.getWrittenDate())) article.setWrittenDate(articleDTO.getWrittenDate());
-        if(StringUtils.isNotBlank(articleDTO.getOpen())) article.setOpen(articleDTO.getOpen());
         if(StringUtils.isNotBlank(articleDTO.getContent())) article.setContent(articleDTO.getContent());
         if(StringUtils.isNotBlank(articleDTO.getPicture())) article.setPicture(articleDTO.getPicture());
         if(StringUtils.isNotBlank(articleDTO.getHeight())) article.setHeight(articleDTO.getHeight());
@@ -175,7 +174,7 @@ public ArticleDTO getPost(Long articleId) {
     public Article findByTokenQna(ArticleDTO articleDTO) {
     User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
     user.getArticles();
-    
+
 
         return null;
     }

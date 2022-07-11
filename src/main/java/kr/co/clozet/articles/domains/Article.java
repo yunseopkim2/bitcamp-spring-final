@@ -38,7 +38,7 @@ public class Article {
     @CreatedDate
     @Column(name = "written_date", updatable = false)  private String writtenDate;
     @Column private String inquiry;
-    @Column private String open;
+    @Column private boolean open;
     @Column private String content;
     @Column private String picture;
     @Column private String height;

@@ -42,6 +42,9 @@ interface ArticleCustomRepository{
 
     @Query(value = "SELECT a FROM Article a where a.user.token = :token")
     Article findByTokenToArticle(@Param("token") String token);
+
+    @Query(value = "SELECT a FROM Article a where a.user.token = :token And a.open = true")
+    Article findByToken(@Param("token") String token, @Param("open") boolean open);
 }
 
 @Repository

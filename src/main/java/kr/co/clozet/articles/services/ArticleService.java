@@ -45,7 +45,9 @@ public interface ArticleService {
 
     void partialUpdate(ArticleDTO articleDTO);
 
-    Article findByTokenQna(ArticleDTO articleDTO);
+    Article findByOpen(ArticleDTO articleDTO);
+
+   // Article findByTokenQna(ArticleDTO articleDTO);
 
     //Page<Article> search(String keyword, Pageable pageable);
 }

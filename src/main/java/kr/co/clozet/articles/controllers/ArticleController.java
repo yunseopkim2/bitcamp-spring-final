@@ -150,9 +150,14 @@ public class ArticleController {
       service.partialUpdate(articleDTO);
     }
 
-    @PatchMapping(value = "/findByTokenToQna") @ResponseBody
+    @PostMapping(value = "/findByTokenToQna") @ResponseBody
     public ResponseEntity<Article> findByTokenToQna(@RequestBody final ArticleDTO articleDTO) {
-        Article article = repository.findByToken(articleDTO.getUser().getToken(), articleDTO.isOpen());
+        Article article = service.findByOpen(articleDTO);
         return ResponseEntity.ok(article);
+            }
+    @DeleteMapping(value = "/tokenDelete/{token}{title}")
+    public void delete(@PathVariable("token") String token, @PathVariable("title") String title ) throws Exception{
+        repository.deleteArticle(token, title);
+
     }
 }

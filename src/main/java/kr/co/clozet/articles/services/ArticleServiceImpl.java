@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -49,7 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .weight(article.getWeight())
                     .picture(article.getPicture())
                     .content(article.getContent())
-                    .open(article.isOpen())
+                    .open(article.getOpen())
                     .inquiry(article.getInquiry())
                     .title(article.getTitle())
                     .comment(article.getComment())
@@ -171,11 +172,25 @@ public ArticleDTO getPost(Long articleId) {
     }
 
     @Override
-    public Article findByTokenQna(ArticleDTO articleDTO) {
-    User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
-    user.getArticles();
+    public Article findByOpen(ArticleDTO articleDTO) {
+        User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
+        if (articleDTO.getOpen().equals("true")){
+            return (Article) user.getArticles();
+        }else {
+                user.getArticles();
+        }
 
 
         return null;
     }
+
+   /* @Override
+    public Article findByOpenTrue(ArticleDTO articleDTO) {
+        User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
+        user.getArticles();
+        repository.findByOpenTrue(articleDTO.isOpen());
+        return null;
+    }*/
+
+
 }

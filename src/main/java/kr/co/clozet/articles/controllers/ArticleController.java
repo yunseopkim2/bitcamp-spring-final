@@ -160,4 +160,9 @@ public class ArticleController {
         repository.deleteArticle(token, title);
 
     }
+    @PostMapping("/findMyQna")
+    public ResponseEntity<List<Article>> findMyQna(ArticleDTO articleDTO) {
+        return ResponseEntity.ok(service.findMyQna(articleDTO));
+    }
+
 }

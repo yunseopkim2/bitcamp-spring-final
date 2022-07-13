@@ -43,6 +43,8 @@ public interface ArticleService {
 
     List<Article> search(String title);
 
+    List<Article> findMyQna(ArticleDTO articleDTO);
+
     void partialUpdate(ArticleDTO articleDTO);
 
     Article findByOpen(ArticleDTO articleDTO);

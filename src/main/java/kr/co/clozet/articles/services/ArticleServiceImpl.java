@@ -183,6 +183,15 @@ public ArticleDTO getPost(Long articleId) {
 
         return null;
     }
+    @Override
+    public List<Article> findMyQna(ArticleDTO articleDTO) {
+        Article findArticle = repository.findByUserUserId(articleDTO.getUserId()).orElse(null);
+        boolean checkPassword = findArticle.getOpen().equals("false");
+        if(checkPassword)
+            findArticle = repository.findByOpen(String.valueOf(Objects.equals(articleDTO.getOpen(), "false"))).orElse(null);
+
+        return (List<Article>) findArticle;
+    }
 
    /* @Override
     public Article findByOpenTrue(ArticleDTO articleDTO) {

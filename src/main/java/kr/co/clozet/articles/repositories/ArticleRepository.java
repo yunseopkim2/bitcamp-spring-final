@@ -54,6 +54,8 @@ interface ArticleCustomRepository{
 public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository{
     List<Article> findByTitleContaining(String title);
     Page<Article> findByTitleContaining(String keyword, Pageable pageable);
+    Optional<Article> findByUserUserId(long userId);
+    Optional<Article> findByOpen(String open);
 
     void delete(Article article);
     //Optional<Article> findByUsername(String uesrname);

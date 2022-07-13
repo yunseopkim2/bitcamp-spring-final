@@ -33,11 +33,12 @@ public class ArticleDTO {
     @ApiModelProperty(position = 7) String picture;
     @ApiModelProperty(position = 8) String height;
     @ApiModelProperty(position = 9) String weight;
-    @ApiModelProperty(position = 10) User user;
+    @ApiModelProperty(position = 10) long userId;
     @ApiModelProperty(position = 11) Board board;
     @ApiModelProperty(position = 12) int view;
     @ApiModelProperty(position = 13) private Long fileId;
     @ApiModelProperty(position = 14) private String comment;
+    @ApiModelProperty(position = 15 ) User user;
 
     public Article toEntity(){
         Article articles = Article.builder()

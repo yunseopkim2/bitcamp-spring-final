@@ -72,19 +72,19 @@ public class UserController {
         return service.findPassword(userDTO);
     }*/
 
-    @GetMapping("/existsByUsername") @ResponseBody
+    @PostMapping("/existsByUsername") @ResponseBody
     public ResponseEntity<Boolean> existsByUsername(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(repository.existsByUsername(userDTO.getUsername()));
     }
-    @GetMapping("/existsByPhone") @ResponseBody
+    @PostMapping("/existsByPhone") @ResponseBody
     public ResponseEntity<Boolean> existsByPhone(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(repository.existsByPhone(userDTO.getPhone()));
     }
-    @GetMapping("/existsByEmail") @ResponseBody
+    @PostMapping("/existsByEmail") @ResponseBody
     public ResponseEntity<Boolean> existsByEmail(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(repository.existsByEmail(userDTO.getEmail()));
     }
-    @GetMapping("/existsByNickname") @ResponseBody
+    @PostMapping("/existsByNickname") @ResponseBody
     public ResponseEntity<Boolean> existsByNickname(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(repository.existsByNickname(userDTO.getNickname()));
     }
@@ -145,6 +145,7 @@ public class UserController {
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Messenger> getOne(@PathVariable Long id) {
         return ResponseEntity.ok(service.getOne(id));}
+
     @PostMapping(value = "/getToken") @ResponseBody
     public ResponseEntity<UserDTO> getToken(@RequestBody UserDTO userDTO) throws Exception{
         return ResponseEntity.ok(service.save1(userDTO));

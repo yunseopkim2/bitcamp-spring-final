@@ -164,5 +164,9 @@ public class ArticleController {
     public ResponseEntity<List<Article>> findMyQna(ArticleDTO articleDTO) {
         return ResponseEntity.ok(service.findMyQna(articleDTO));
     }
+    @PostMapping(value = "/qnaList")
+    public ResponseEntity<Article> qnaList(@RequestBody ArticleDTO article) {
+        return ResponseEntity.ok(service.findAllQna(article));
+    }
 
 }

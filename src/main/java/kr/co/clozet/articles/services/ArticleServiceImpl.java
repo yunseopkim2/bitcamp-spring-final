@@ -176,12 +176,14 @@ public ArticleDTO getPost(Long articleId) {
         User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
         if (articleDTO.getOpen().equals("true")){
             return (Article) user.getArticles();
-        }else {
-                user.getArticles();
         }
 
-
         return null;
+    }
+    @Override
+    public Article findAllQna(ArticleDTO articleDTO) {
+        Article article = repository.findByOpen(String.valueOf(Objects.equals(articleDTO.getOpen(), "true"))).orElse(null);
+        return article;
     }
     @Override
     public List<Article> findMyQna(ArticleDTO articleDTO) {

@@ -43,6 +43,8 @@ public interface ArticleService {
 
     List<Article> search(String title);
 
+    Article findAllQna(ArticleDTO articleDTO);
+
     List<Article> findMyQna(ArticleDTO articleDTO);
 
     void partialUpdate(ArticleDTO articleDTO);

@@ -93,7 +93,10 @@ public class ArticleServiceImpl implements ArticleService {
    @Override
    public Messenger delete(ArticleDTO articleDTO) {
        Article article = new Article();
-       userRepository.findByUsername(articleDTO.getUser().getUsername()).equals(article.getUser().getUsername());
+       boolean token = userRepository.findByToken(articleDTO.getUser().getToken()).equals(article.getUser().getToken());
+       if(token){
+           repository.deleteArticleByArticleId(articleDTO.getArticleId());
+       }
        return Messenger.builder().message("삭제 완료").build();
    }
 

@@ -39,6 +39,7 @@ public class ArticleDTO {
     @ApiModelProperty(position = 13) private Long fileId;
     @ApiModelProperty(position = 14) private String comment;
     @ApiModelProperty(position = 15 ) User user;
+    @ApiModelProperty(position = 16 ) String token;
 
     public Article toEntity(){
         Article articles = Article.builder()

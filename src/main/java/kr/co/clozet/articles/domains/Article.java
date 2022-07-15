@@ -45,6 +45,7 @@ public class Article {
     @Column private String weight;
     @Column private String comment;
     @Column private Long fileId;
+    @Column private String token;
     @Column(columnDefinition = "integer default 0", nullable = false) private int view;
 
     @JsonBackReference

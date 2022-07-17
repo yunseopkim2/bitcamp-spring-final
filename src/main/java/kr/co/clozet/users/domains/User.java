@@ -1,6 +1,7 @@
 package kr.co.clozet.users.domains;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import kr.co.clozet.articles.domains.Article;
@@ -47,10 +48,12 @@ public class User {
     @Column private  String phone;
     @Column private String token;
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Article> articles = new ArrayList<>();
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Clothes> clothes = new ArrayList<>();

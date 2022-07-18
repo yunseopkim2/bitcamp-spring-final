@@ -26,38 +26,20 @@ import javax.persistence.Column;
 public class ArticleDTO {
     @ApiModelProperty(position = 1) private long articleId;
     @ApiModelProperty(position = 2) String title;
-    @ApiModelProperty(position = 3) private String writtenDate;
-    @ApiModelProperty(position = 4) String inquiry;
-    @ApiModelProperty(position = 5) String open;
-    @ApiModelProperty(position = 6) String content;
-    @ApiModelProperty(position = 7) String picture;
-    @ApiModelProperty(position = 8) String height;
-    @ApiModelProperty(position = 9) String weight;
-    @ApiModelProperty(position = 10) long userId;
-    @ApiModelProperty(position = 11) Board board;
-    @ApiModelProperty(position = 12) int view;
-    @ApiModelProperty(position = 13) private Long fileId;
-    @ApiModelProperty(position = 14) private String comment;
-    @ApiModelProperty(position = 15 ) User user;
-    @ApiModelProperty(position = 16 ) String token;
+    @ApiModelProperty(position = 3) String writtenDate;
+    @ApiModelProperty(position = 4) String open;
+    @ApiModelProperty(position = 5) String content;
+    @ApiModelProperty(position = 6) String height;
+    @ApiModelProperty(position = 7) String weight;
+    @ApiModelProperty(position = 8) User user;
+    @ApiModelProperty(position = 9) long fileId;
+    @ApiModelProperty(position = 10) long clothesId;
+    @ApiModelProperty(position = 11) String comment;
+    @ApiModelProperty(position = 12) String qna;
+    @ApiModelProperty(position = 13) int view;
+    @ApiModelProperty(position = 14) private String token;
+    @ApiModelProperty(position = 15) String nickname;
 
-    public Article toEntity(){
-        Article articles = Article.builder()
-                .articleId(articleId)
-                .title(title)
-                .writtenDate(writtenDate)
-                .inquiry(inquiry)
-                .open(open)
-                .content(content)
-                .picture(picture)
-                .height(height)
-                .weight(weight)
-                .user(user)
-                .fileId(fileId)
-                .board(board).build();
-        return null;
-    }
 
-    public void addAttribute(String searchList, Page<Article> searchList1) {
-    }
+
 }

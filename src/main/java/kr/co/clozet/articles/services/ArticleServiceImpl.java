@@ -6,18 +6,22 @@ import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.common.blank.StringUtils;
 import kr.co.clozet.users.domains.User;
+import kr.co.clozet.users.domains.UserDTO;
 import kr.co.clozet.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * packageName:kr.co.clozet.board.services
@@ -42,132 +46,118 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> findAll() {
         return repository.findAll();
     }
+
     @Override
-    public Messenger update(Article article) {
-        final Optional<Article> original = repository.findById(article.getUser().getUserId());
-        original.ifPresent(article1 -> {
-            Article.builder().height(article.getHeight())
+    public List<Article> findAllQna(ArticleDTO articleDTO) {
+        List<Article> article = repository.findByOpen(String.valueOf(Objects.equals(articleDTO.getOpen(), "true")));
+        // article = repository.findAll(Sort.by(Sort.Direction.DESC, "writtenDate"));
+        return article;
+    }
+
+    @Override
+    public List<Article> findAll(Sort sort) {
+        return repository.findAll(sort);
+    }
+
+    @Override
+    public Article findByTitle(ArticleDTO articleDTO) {
+        Article article =repository.findByTitle(articleDTO.getTitle()).orElse(null);
+        return article;
+    }
+
+    @Override
+    public Page findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public List<Article> findMyQna(ArticleDTO articleDTO) {
+        List<Article> article = new ArrayList<>();
+        if(articleDTO.getOpen() != null){
+            article = repository.findByToken(articleDTO.getToken());
+        }
+        return article;
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
+
+    @Override @Transactional
+    public void delete(ArticleDTO articleDTO) {
+        /*Article article = new Article();
+        article.setToken(articleDTO.getToken());
+        repository.save(article);
+        List<Article> article1 = repository.findByToken(article.getToken());*/
+        repository.deleteArticleByArticleId(articleDTO.getArticleId());
+    }
+
+    @Override
+    public List<Article> findByUsernameToArticle(String username) {
+        return repository.findByUsernameToArticle(username);
+    }
+
+    @Override
+    public Messenger save(ArticleDTO article) {
+        System.out.println("서비스로 전달된 게시글 정보: "+article.toString());
+        String result = "";
+        if (repository.findByTitle(article.getTitle()).isEmpty()) {
+            repository.save(Article.builder()
+                    .title(article.getTitle())
+                    .writtenDate(article.getWrittenDate())
+                    .content(article.getContent())
+                    .height(article.getHeight())
                     .weight(article.getWeight())
-                    .picture(article.getPicture())
+                    .comment(article.getComment())
+                    .token(article.getToken())
+                    .nickname(article.getNickname())
+                    .comment(article.getComment())
+                    .build());
+            result = "SUCCESS";
+        } else {
+            result = "FAIL";
+        }
+        return Messenger.builder().message(result).build();
+    }
+
+    @Override
+    public void saveQna(ArticleDTO article) {
+        System.out.println("서비스로 전달된 QnA 정보: "+article.toString());
+        String result = "";
+        if (repository.findByTitle(article.getTitle()).isEmpty()) {
+            repository.save(Article.builder()
+                    .title(article.getTitle())
                     .content(article.getContent())
                     .open(article.getOpen())
-                    .inquiry(article.getInquiry())
-                    .title(article.getTitle())
-                    .comment(article.getComment())
-                    .build();
-            repository.save(article1);
-        });
-        return Messenger.builder().message("업데이트 완료").build();
-    }
-    @Override
-    public List<Article> findAll(Sort sort) {
-        return repository.findAll(Sort.by(Sort.Direction.DESC, "writtenDate"));
-    }
-
-    @Override
-    public Page<Article> findAll(Pageable pageable) {
-        Pageable sortedByArticles =
-                PageRequest.of(0, 5, Sort.by("writtenDate")
-                        .descending()
-                        .and(Sort.by("writtenDate")));
-        return repository.findAll(sortedByArticles);
-    }
-
-    @Override
-    public Messenger count() {
-
-        repository.count();
-        return Messenger.builder().message("").build() ;
-    }
-
-   /* @Override
-    public Messenger delete(ArticleDTO article) {
-        Article article1 = new Article();
-        if(article.getArticleId() == article1.getArticleId()){
-            repository.deleteByArticle(article);
-
+                    .nickname(article.getNickname())
+                    .token(article.getToken())
+                    .writtenDate(article.getWrittenDate())
+                    .build());
+            result = "SUCCESS";
+        } else {
+            result = "FAIL";
         }
-        return Messenger.builder().message("삭제되었습니다.").build();
-    }
-*/
-   @Override
-   public Messenger delete(ArticleDTO articleDTO) {
-       Article article = new Article();
-       boolean token = userRepository.findByToken(articleDTO.getUser().getToken()).equals(article.getUser().getToken());
-       if(token){
-           repository.deleteArticleByArticleId(articleDTO.getArticleId());
-       }
-       return Messenger.builder().message("삭제 완료").build();
-   }
-
-
-    @Override
-    public Messenger save(Article article) {
-        repository.save(article);
-        return Messenger.builder().message("등록되었습니다.").build();
     }
 
     @Override
-    public Optional<Article> findById(Long userId) {
-        return repository.findById(0L);
+    public Optional<Article> findById(ArticleDTO articleDTO) {
+        return repository.findById(articleDTO.getArticleId());
     }
 
     @Override
-    public Messenger existsById(String article) {
-
-        repository.existsById(0L);
-        return Messenger.builder().message("중복된 결과입니다.").build();
+    public boolean existsById(String article) {
+        return repository.existsById(0L);
     }
 
-    @Override
-    public Messenger removeComment(Long userId) {
-        return null;
-    }
-
-    @Override
-    public List<Article> search(String title) {
-         List<Article> searchByTitle = repository.findByTitleContaining(title);
-        return searchByTitle;
-    }
-
-   /* @Override
-    public Integer updateView(Long userId) {
-        Article article = new Article();
-        int a = repository.updateView(userId);
-        article.setView(a);
-        repository.save(article);
-        return repository.updateView(userId);
-    }*/
-
-/*
-    @Override
-    public Page<Article> search(String keyword, Pageable pageable) {
-        Page<Article> postsList = repository.findByTitleContaining(keyword, pageable);
-        return postsList;
-    }
-*/
-@Transactional
-public ArticleDTO getPost(Long articleId) {
-    Article board = repository.findById(articleId).get();
-
-    ArticleDTO boardDto = ArticleDTO.builder()
-            .articleId(board.getArticleId())
-            .title(board.getTitle())
-            .content(board.getContent())
-            .fileId(board.getFileId())
-            .writtenDate(board.getWrittenDate())
-            .build();
-    return boardDto;
-}
     @Override @Transactional
-    public void partialUpdate(final ArticleDTO articleDTO) {
+    public void partialUpdate(final ArticleDTO articleDTO) throws Exception{
         Optional<Article> originArticle = repository.findById(articleDTO.getArticleId());
 
         Article article = originArticle.get();
         if(StringUtils.isNotBlank(articleDTO.getTitle())) article.setTitle(articleDTO.getTitle());
         if(StringUtils.isNotBlank(articleDTO.getWrittenDate())) article.setWrittenDate(articleDTO.getWrittenDate());
         if(StringUtils.isNotBlank(articleDTO.getContent())) article.setContent(articleDTO.getContent());
-        if(StringUtils.isNotBlank(articleDTO.getPicture())) article.setPicture(articleDTO.getPicture());
         if(StringUtils.isNotBlank(articleDTO.getHeight())) article.setHeight(articleDTO.getHeight());
         if(StringUtils.isNotBlank(articleDTO.getWeight())) article.setWeight(articleDTO.getWeight());
         if(StringUtils.isNotBlank(articleDTO.getComment())) article.setComment(articleDTO.getComment());
@@ -175,36 +165,16 @@ public ArticleDTO getPost(Long articleId) {
     }
 
     @Override
-    public Article findByOpen(ArticleDTO articleDTO) {
-        User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
-        if (articleDTO.getOpen().equals("true")){
-            return (Article) user.getArticles();
-        }
-
-        return null;
+    public List<Article> findByToken(UserDTO userDTO) {
+        User user = userRepository.findByToken(userDTO.getToken()).orElse(null);
+        return user.getArticles();
     }
+
+
+
     @Override
-    public Article findAllQna(ArticleDTO articleDTO) {
-        Article article = repository.findByOpen(String.valueOf(Objects.equals(articleDTO.getOpen(), "true"))).orElse(null);
-        return article;
+    public List<Article> findByUsername(String username) {
+        return repository.findByUsername(username);
     }
-    @Override
-    public List<Article> findMyQna(ArticleDTO articleDTO) {
-        Article findArticle = repository.findByUserUserId(articleDTO.getUserId()).orElse(null);
-        boolean checkPassword = findArticle.getOpen().equals("false");
-        if(checkPassword)
-            findArticle = repository.findByOpen(String.valueOf(Objects.equals(articleDTO.getOpen(), "false"))).orElse(null);
-
-        return (List<Article>) findArticle;
-    }
-
-   /* @Override
-    public Article findByOpenTrue(ArticleDTO articleDTO) {
-        User user = userRepository.findByToken(articleDTO.getUser().getToken()).orElse(null);
-        user.getArticles();
-        repository.findByOpenTrue(articleDTO.isOpen());
-        return null;
-    }*/
-
 
 }

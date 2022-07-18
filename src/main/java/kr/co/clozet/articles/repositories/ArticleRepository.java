@@ -1,10 +1,7 @@
 package kr.co.clozet.articles.repositories;
 
 import kr.co.clozet.articles.domains.Article;
-import kr.co.clozet.articles.domains.ArticleDTO;
-import kr.co.clozet.users.domains.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,37 +25,42 @@ import java.util.Optional;
  **/
 
 interface ArticleCustomRepository{
-    // 000. title 과 content 를 수정하시오
 
+    @Query(value = "SELECT a FROM Article a where a.user.username = :username")
+    List<Article> findByUsernameToArticle(@Param("username") String username);
 
-    @Modifying(clearAutomatically = true)
-    @Query(value = "SELECT a.height FROM Article a WHERE a.title LIKE '%안녕%'")
-    String[] searchByTitleLike(
-    );
-    @Transactional
-    @Modifying
+    @Query(value = "SELECT a FROM Article a where a.token = :token and a.open is null")
+    List<Article> findByTokenToArticle(@Param("token") String token);
+
+    @Query(value = "SELECT a FROM Article a WHERE a.open is null")
+    List<Article> findAllArticle();
+
+    @Transactional @Modifying
     @Query("update Article a set a.view = a.view + 1 where a.title = :title")
     int updateView(@Param("title") String title);
-
-    @Query(value = "SELECT a FROM Article a where a.user.token = :token")
-    Article findByTokenToArticle(@Param("token") String token);
 
     @Transactional @Modifying
     @Query("delete from Article a where a.user.token in :token and a.title = :title")
     void deleteArticle(@Param("token") String token, @Param("title") String title);
 
+    @Query("select a.articleId FROM Article a join User u on u.userId = a.user.userId where a.user.username = :username")
+    List<Article> findByUsername(@Param("username") String username);
+
+    @Query("SELECT a from Article a WHERE a.open LIKE 'true' order by a.writtenDate ASC")
+    List<Article> findByQnaDateASC(@Param("open") String open);
+
 
 }
 
-@Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository{
-    List<Article> findByTitleContaining(String title);
-    Page<Article> findByTitleContaining(String keyword, Pageable pageable);
-    Optional<Article> findByUserUserId(long userId);
-    Optional<Article> findByOpen(String open);
-    List<Article> deleteArticleByArticleId(long articleId);
 
-    void delete(Article article);
-    //Optional<Article> findByUsername(String uesrname);
-    //void deleteByArticle(ArticleDTO article);
+@Repository
+public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository {
+    Optional<Article> findByTitle(String title);
+    List<Article> findByOpen(String open);
+    List<Article> findByUserUserId(long userId);
+    List<Article> findAll(Sort sort);
+    //Optional<Article> findByToken(String token);
+    List<Article> findByToken(String token);
+    void deleteArticleByArticleId(Long articleId);
+
 }

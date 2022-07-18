@@ -3,11 +3,12 @@ package kr.co.clozet.articles.services;
 import kr.co.clozet.articles.domains.Article;
 import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.auth.domains.Messenger;
-import kr.co.clozet.users.domains.User;
+import kr.co.clozet.users.domains.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,33 +26,35 @@ import java.util.Optional;
 public interface ArticleService {
     List<Article> findAll();
 
+    List<Article> findAllQna(ArticleDTO articleDTO);
+
+    List<Article> findByUsernameToArticle(String username);
+
     List<Article> findAll(Sort sort);
+
+    Article findByTitle(ArticleDTO articleDTO);
 
     Page<Article> findAll(Pageable pageable);
 
-    Messenger count();
-
-    Messenger delete(ArticleDTO article);
-    Messenger update(Article article);
-    Messenger save(Article article);
-
-    Optional<Article> findById(Long userId);
-
-    Messenger existsById(String article);
-
-    Messenger removeComment(Long userId);
-
-    List<Article> search(String title);
-
-    Article findAllQna(ArticleDTO articleDTO);
-
     List<Article> findMyQna(ArticleDTO articleDTO);
 
-    void partialUpdate(ArticleDTO articleDTO);
+    long count();
 
-    Article findByOpen(ArticleDTO articleDTO);
+    void delete(ArticleDTO articleDTO) throws Exception;
 
-   // Article findByTokenQna(ArticleDTO articleDTO);
+    Messenger save(ArticleDTO article);
 
-    //Page<Article> search(String keyword, Pageable pageable);
+    void saveQna(ArticleDTO article) throws Exception;
+
+    Optional<Article> findById(ArticleDTO articleDTO);
+
+    boolean existsById(String article);
+
+    void partialUpdate(ArticleDTO articleDTO) throws Exception;
+
+    List<Article> findByToken(UserDTO userDTO);
+
+
+    List<Article> findByUsername(String username);
+
 }

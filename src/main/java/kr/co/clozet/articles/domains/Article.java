@@ -35,18 +35,18 @@ public class Article {
     @Column(name = "article_id")
     @GeneratedValue(strategy = GenerationType.AUTO) private long articleId;
     @Column private String title;
-    @CreatedDate
-    @Column(name = "written_date", updatable = false)  private String writtenDate;
-    @Column private String inquiry;
+    @Column(name = "written_date") private String writtenDate;
     @Column private String open;
     @Column private String content;
     @Column private String picture;
     @Column private String height;
     @Column private String weight;
-    @Column private String comment;
-    @Column private Long fileId;
-    @Column private String token;
+    @Column private String nickname;
+    @Column String comment;
+    @Column String qna;
     @Column(columnDefinition = "integer default 0", nullable = false) private int view;
+    @Column(length = 1200) private String token;
+
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)

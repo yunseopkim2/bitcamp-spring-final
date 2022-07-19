@@ -6,18 +6,13 @@ import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.articles.services.ArticleService;
 import kr.co.clozet.auth.domains.Messenger;
-import kr.co.clozet.users.domains.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -81,9 +76,9 @@ public class ArticleController {
         return service.count();
     }
 
-    @DeleteMapping("/delete/{articleId}") @ResponseBody
-    public void delete(@PathVariable(value = "articleId") Long articleId) {
-        repository.deleteById(articleId);
+    @DeleteMapping("/delete") @ResponseBody
+    public void delete(@RequestBody ArticleDTO articleDTO) {
+        repository.deleteById(articleDTO.getArticleId());
     }
 
     @PostMapping(value = "/join")
@@ -101,7 +96,7 @@ public class ArticleController {
     }
 
     @PostMapping(value = "/comment")
-    public ResponseEntity<Article> findByTitle(@RequestBody ArticleDTO article) {
+    public ResponseEntity<List<Article>> findByTitle(@RequestBody ArticleDTO article) {
         System.out.println("게시글 정보: " + article.toString());//확인만 하려구.. 지워야함
         return ResponseEntity.ok(service.findByTitle(article));
     }
@@ -116,8 +111,6 @@ public class ArticleController {
     public ResponseEntity<Optional<Article>> findById(@RequestBody ArticleDTO articleDTO) {
         return ResponseEntity.ok(service.findById(articleDTO));
     }
-
-  
 
     @GetMapping("/existsById/{article}")
     public boolean existsById(@PathVariable String article) {
@@ -135,7 +128,10 @@ public class ArticleController {
         Article article = new Article();
         return article.getView();
     }
-
+    @PostMapping("/findComment") @ResponseBody
+    public ResponseEntity<List<Article>> findComment(@RequestBody ArticleDTO articleDTO) {
+        return ResponseEntity.ok(service.findComment(articleDTO));
+    }
     @DeleteMapping(value = "/tokenDelete/{token}{title}")
     public void delete(@PathVariable("token") String token, @PathVariable("title") String title ) throws Exception{
         repository.deleteArticle(token, title);

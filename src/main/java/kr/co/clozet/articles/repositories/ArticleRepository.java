@@ -55,7 +55,7 @@ interface ArticleCustomRepository{
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleCustomRepository {
-    Optional<Article> findByTitle(String title);
+    List<Article> findByTitle(String title);
     List<Article> findByOpen(String open);
     List<Article> findByUserUserId(long userId);
     List<Article> findAll(Sort sort);

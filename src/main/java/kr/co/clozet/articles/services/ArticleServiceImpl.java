@@ -15,13 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 
 /**
  * packageName:kr.co.clozet.board.services
@@ -60,11 +57,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article findByTitle(ArticleDTO articleDTO) {
-        Article article =repository.findByTitle(articleDTO.getTitle()).orElse(null);
+    public List<Article> findByTitle(ArticleDTO articleDTO) {
+        List<Article> article =repository.findByTitle(articleDTO.getTitle());
         return article;
     }
 
+    @Override
+    public List<Article> findComment(ArticleDTO articleDTO) {
+        List<Article> articles = repository.findByTitle(articleDTO.getTitle());
+        return articles;
+    }
     @Override
     public Page findAll(Pageable pageable) {
         return repository.findAll(pageable);

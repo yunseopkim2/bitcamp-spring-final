@@ -2,9 +2,12 @@ package kr.co.clozet.clothes.controllers;
 
 import kr.co.clozet.auth.domains.Messenger;
 import kr.co.clozet.clothes.domains.Clothes;
+import kr.co.clozet.clothes.domains.ClothesDTO;
+import kr.co.clozet.clothes.repositories.ClothesRepository;
 import kr.co.clozet.clothes.services.ClothesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/clothes")
 public class ClothesController {
-
+    private final ClothesRepository repository;
     private final ClothesService service;
 
     @GetMapping("/findAll")
@@ -64,4 +67,9 @@ public class ClothesController {
     public ResponseEntity<Messenger> update(@RequestBody Clothes clothes) {
         return ResponseEntity.ok(service.update(clothes));
     }
+    @PostMapping("/findTop") @ResponseBody
+    public ResponseEntity<List<Clothes>> findTop(@RequestBody ClothesDTO clothesDTO) {
+        return ResponseEntity.ok(repository.findTop(clothesDTO.getToken(), clothesDTO.getClothesClassification()));
+    }
+
 }

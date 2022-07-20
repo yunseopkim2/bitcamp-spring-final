@@ -37,6 +37,12 @@ public class Clothes {
     @Id
     @Column(name = "clothes_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) private long clothesId;
+    @Column private String clothesClassification;
+    @Column private String colors;
+    @Column private String weathers;
+    @Column private String styles;
+    @Column private String events;
+    @Column private String token;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "closet_id")

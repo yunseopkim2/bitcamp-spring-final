@@ -50,6 +50,12 @@ interface ArticleCustomRepository{
     List<Article> findByQnaDateASC(@Param("open") String open);
 
 
+    @Query(value = "SELECT a FROM Article a where a.token = :token and a.open is not null")
+    List<Article> findMyQna(@Param("token") String token);
+
+    @Transactional @Modifying
+    @Query("delete from Article a where a.token in :token and a.articleId = :articleId")
+    void deleteComment(@Param("token") String token, @Param("articleId") long articleId);
 }
 
 

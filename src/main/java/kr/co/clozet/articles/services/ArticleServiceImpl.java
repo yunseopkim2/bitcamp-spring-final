@@ -51,6 +51,13 @@ public class ArticleServiceImpl implements ArticleService {
         return article;
     }
 
+    @Override @Transactional
+    public void deleteArticle(Long articleId){
+        Optional<Article> optArticle = repository.findById(articleId);
+        if (optArticle.isPresent()){
+            Article article = optArticle.get();
+            repository.delete(article);
+        }}
     @Override
     public List<Article> findAll(Sort sort) {
         return repository.findAll(sort);

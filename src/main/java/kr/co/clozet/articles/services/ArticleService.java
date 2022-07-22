@@ -24,7 +24,7 @@ import java.util.Optional;
  **/
 public interface ArticleService {
     List<Article> findAll();
-
+    void deleteArticle(Long articleId);
     List<Article> findAllQna(ArticleDTO articleDTO);
 
     List<Article> findComment(ArticleDTO articleDTO);

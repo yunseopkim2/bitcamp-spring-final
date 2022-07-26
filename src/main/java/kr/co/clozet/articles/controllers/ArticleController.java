@@ -74,5 +74,8 @@ public class ArticleController {
     public void deleteComment(@RequestBody ArticleDTO articleDTO) {
         repository.deleteComment(articleDTO.getToken(), articleDTO.getArticleId());
     }
-
+    @GetMapping("/count") @ResponseBody
+    public ResponseEntity<Long> count(){
+        return ResponseEntity.ok(service.count());
+    }
 }

@@ -24,6 +24,7 @@ import java.util.Optional;
  **/
 public interface ArticleService {
     List<Article> findAll();
+
     void deleteArticle(Long articleId);
 
     List<Article> findAllQna(ArticleDTO articleDTO);
@@ -55,7 +56,6 @@ public interface ArticleService {
     void partialUpdate(ArticleDTO articleDTO) throws Exception;
 
     List<Article> findByToken(UserDTO userDTO);
-
 
     List<Article> findByUsername(String username);
 

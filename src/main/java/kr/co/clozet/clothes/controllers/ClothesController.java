@@ -45,7 +45,7 @@ public class ClothesController {
         return ResponseEntity.ok(service.findAll(pageable));}
 
     @GetMapping("/count")
-    public ResponseEntity<Messenger> count() {return ResponseEntity.ok(service.count());}
+    public ResponseEntity<Long> count() {return ResponseEntity.ok(service.count());}
 
     @DeleteMapping("/delete")
     public ResponseEntity<Messenger> delete(@RequestBody Clothes clothes) {

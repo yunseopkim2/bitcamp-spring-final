@@ -25,7 +25,7 @@ public interface ClothesService {
     List<Clothes> findAll(Sort sort);
     Page<Clothes> findAll(Pageable pageable);
 
-    Messenger count();
+    long count();
 
     Messenger delete(Clothes clothes);
 

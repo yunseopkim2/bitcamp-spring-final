@@ -46,14 +46,14 @@ public class ClothesServiceImpl implements ClothesService {
     }
 
     @Override
-    public Messenger count() {
-        return Messenger.builder().message(string(repository.count())).build();
+    public long count() {
+       return repository.count();
     }
 
     @Override
     public Messenger delete(Clothes clothes) {
         repository.delete(clothes);
-        return Messenger.builder().build();
+        return Messenger.builder().message("삭제되었습니다.").build();
     }
 
     @Override

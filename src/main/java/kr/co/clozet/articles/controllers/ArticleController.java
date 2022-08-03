@@ -6,7 +6,6 @@ import kr.co.clozet.articles.domains.ArticleDTO;
 import kr.co.clozet.articles.repositories.ArticleRepository;
 import kr.co.clozet.articles.services.ArticleService;
 import kr.co.clozet.auth.domains.Messenger;
-import kr.co.clozet.users.domains.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ public class ArticleController {
         return ResponseEntity.ok(service.save(article));
     }
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list")
     public ResponseEntity<List<Article>> findAllArticles() {
         return ResponseEntity.ok(repository.findAllArticle());
     }
@@ -60,21 +59,21 @@ public class ArticleController {
         return ResponseEntity.ok(repository.findByQnaDateASC(article.getOpen()));
     }
 
-    @PostMapping("/myList/qna") @ResponseBody
+    @PostMapping(value = "/myList/qna") @ResponseBody
     public ResponseEntity<List<Article>> findMyQna(@RequestBody ArticleDTO articleDTO) {
         return ResponseEntity.ok(repository.findMyQna(articleDTO.getToken()));
     }
 
-    @PostMapping("/list/comment") @ResponseBody
+    @PostMapping(value = "/list/comment") @ResponseBody
     public ResponseEntity<List<Article>> findComment(@RequestBody ArticleDTO articleDTO) {
         return ResponseEntity.ok(repository.findByTitle(articleDTO.getTitle()));
     }
 
-    @DeleteMapping("/delete/comment") @ResponseBody
+    @DeleteMapping(value = "/delete/comment") @ResponseBody
     public void deleteComment(@RequestBody ArticleDTO articleDTO) {
         repository.deleteComment(articleDTO.getToken(), articleDTO.getArticleId());
     }
-    @GetMapping("/count") @ResponseBody
+    @GetMapping(value = "/count") @ResponseBody
     public ResponseEntity<Long> count(){
         return ResponseEntity.ok(service.count());
     }

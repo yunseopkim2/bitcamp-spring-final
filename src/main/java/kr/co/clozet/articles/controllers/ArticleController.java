@@ -54,7 +54,7 @@ public class ArticleController {
         service.saveQna(article);
     }
 
-    @PostMapping(value = "/list/qna")
+    @PostMapping(value = "/list/qna") @ResponseBody
     public ResponseEntity<List<Article>> findByQnaDateASC(@RequestBody ArticleDTO article) {
         return ResponseEntity.ok(repository.findByQnaDateASC(article.getOpen()));
     }
